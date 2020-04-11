@@ -27,6 +27,9 @@ public class Post {
         }
     }
 
+    public Post() {
+    }
+
     public Post(String text) {
         this.text = text;
     }
