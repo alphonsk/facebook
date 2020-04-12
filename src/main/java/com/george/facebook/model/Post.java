@@ -1,7 +1,10 @@
 package com.george.facebook.model;
 
 import javax.persistence.*;
+import javax.validation.constraints.*;
 import java.util.Date;
+
+
 
 
 @Entity

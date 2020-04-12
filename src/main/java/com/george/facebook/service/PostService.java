@@ -25,5 +25,9 @@ public class PostService {
         return postList;
     }
 
+    public List<Post> findAllDesc(){
+        return postRepository.findAllByOrderByAddedDesc();
+    }
+
     //
 }

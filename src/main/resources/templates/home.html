@@ -8,19 +8,21 @@
 
 
 <div class="container">
-    <h4>Posts</h4>
+    <div th:if="${ postCount > 0 }" style="text-align:center;">
+        <h4 th:text="${postCount}">Posts</h4>
+    </div>
     <div class="list-group" th:each ="post: ${posts}">
         <a href="#" class="list-group-item">
 <!--            <h4 class="list-group-item-heading" th:text="*{post.id}" ></h4>-->
-            <p class="list-group-item-text" th:text="*{post.id}" ></p>
+            <p class="list-group-item-text" th:text="${post.id}" ></p>
         </a>
         <a href="#" class="list-group-item">
 <!--            <h4 class="list-group-item-heading" th:text="*{post.text}"></h4>-->
-            <p class="list-group-item-text"  th:text="*{post.text}"></p>
+            <p class="list-group-item-text"  th:text="${post.text}"></p>
         </a>
         <a href="#" class="list-group-item">
 <!--            <h4 class="list-group-item-heading" th:text="*{post.added}"></h4>-->
-            <p class="list-group-item-text" th:text="*{post.added}"></p>
+            <p class="list-group-item-text" th:text="${#dates.format(post.added, 'dd-MMM-yyyy')}"></p>
         </a>
     </div>
 </div>
