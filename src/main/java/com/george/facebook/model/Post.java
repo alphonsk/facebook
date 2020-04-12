@@ -17,6 +17,9 @@ public class Post {
     private Long id;
 
     @Column(name = "text")
+    // also in controller
+    @NotNull
+    @Size(min=2, max=30, message = "Please enter a longer message")
     private String text;
 
     @Column(name = "added")

@@ -39,7 +39,11 @@ public class PageController {
     }
 
     @PostMapping("/addpost")
-    public String addPost( Post post, Model model){
+    // also in model & form
+    public String addPost(@Valid Post post, BindingResult bindingResult, Model model){
+        if (bindingResult.hasErrors()) {
+            return "addpost";
+        }
         postService.addPost(post);
         return ("redirect:/");
     }

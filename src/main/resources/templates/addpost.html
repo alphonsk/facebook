@@ -18,7 +18,8 @@
                     <div class="form-group">
                         <label class="control-label col-sm-2" for="text">add a post:</label>
                         <div class="col-sm-10" >
-                            <input type="text" class="form-control" id="text" placeholder="Enter a post" name="text" th:field="*{text}">
+                            <input type="text" class="form-control" id="text" placeholder="Enter a post" th:field="*{text}">
+                            <span th:if="${#fields.hasErrors('text')}" th:errors="*{text}">Name Error</span>
                         </div>
                     </div>
 
