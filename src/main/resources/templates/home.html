@@ -8,22 +8,38 @@
 
 
 <div class="container">
-    <div th:if="${ postCount > 0 }" style="text-align:center;">
-        <h4 th:text="${postCount}">Posts</h4>
-    </div>
-    <div class="list-group" th:each ="post: ${posts}">
-        <a href="#" class="list-group-item">
-<!--            <h4 class="list-group-item-heading" th:text="*{post.id}" ></h4>-->
-            <p class="list-group-item-text" th:text="${post.id}" ></p>
-        </a>
-        <a href="#" class="list-group-item">
-<!--            <h4 class="list-group-item-heading" th:text="*{post.text}"></h4>-->
-            <p class="list-group-item-text"  th:text="${post.text}"></p>
-        </a>
-        <a href="#" class="list-group-item">
-<!--            <h4 class="list-group-item-heading" th:text="*{post.added}"></h4>-->
-            <p class="list-group-item-text" th:text="${#dates.format(post.added, 'dd-MMM-yyyy')}"></p>
-        </a>
+    <div class="panel panel-info">
+        <div class="panel-heading" th:if="${ postCount > 0 }" style="text-align:center;">
+            <span th:text="${postCount}"> </span><span> posts </span>
+
+        </div>
+
+        <div class="panel-heading" th:if="${ postCount <= 0 }" style="text-align:center;">
+            <span> No post </span><a th:href="@{/addpost}">Add a post </a>
+
+        </div>
+
+        <div class="panel-body">
+            <div class="list-group" th:each ="post: ${posts}">
+                <a href="#" class="list-group-item">
+                    <!--            <h4 class="list-group-item-heading" th:text="*{post.id}" ></h4>-->
+                    <p class="list-group-item-text" th:text="${post.id}" ></p>
+                </a>
+                <a href="#" class="list-group-item">
+                    <!--            <h4 class="list-group-item-heading" th:text="*{post.text}"></h4>-->
+                    <p class="list-group-item-text"  th:text="${post.text}"></p>
+                </a>
+                <a href="#" class="list-group-item">
+                    <!--            <h4 class="list-group-item-heading" th:text="*{post.added}"></h4>-->
+                    <p class="list-group-item-text" th:text="${#dates.format(post.added, 'dd-MMM-yyyy')}"></p>
+                </a>
+            </div>
+        </div>
+
+        <div class="panel-heading"   style="text-align:center;">
+             page
+
+        </div>
     </div>
 </div>
 

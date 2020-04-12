@@ -17,9 +17,11 @@ public class Post {
     private Long id;
 
     @Column(name = "text")
+    // also in validationmessages file
+    @NotNull(message = "{post.text.notnull}")
+
     // also in controller
-    @NotNull
-    @Size(min=2, max=30, message = "Please enter a longer message")
+    @Size(min=2, max=300, message = "{post.text.size}")
     private String text;
 
     @Column(name = "added")
