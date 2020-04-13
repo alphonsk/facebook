@@ -7,9 +7,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
@@ -51,6 +49,9 @@ public class PageController {
         model.addAttribute("page", page );
         model.addAttribute("pageNumber", pageNumber );
 
+        //
+//        List<int> p
+
         return "posts";
     }
 
@@ -61,6 +62,38 @@ public class PageController {
         model.addAttribute("posts", posts);
         model.addAttribute("postCount", postCount);
         return "home";
+    }
+
+    @GetMapping("/post/{id}")
+    public String getPost(Model model, @PathVariable Long id){
+        Post post = postService.finDById(id);
+//        post.setText();
+        model.addAttribute("post", post);
+        return "post";
+    }
+
+    @GetMapping("/editpost/{id}")
+    public String editPost(Model model, @PathVariable Long id){
+        Post post = postService.finDById(id);
+//        post.setText();
+        model.addAttribute("post", post);
+        return "editpost";
+    }
+
+
+
+    @PostMapping("/editpost/{id}")
+    public String editPost(@Valid Post post, BindingResult bindingResult, Model model, @PathVariable Long id){
+        Post myPost = postService.finDById(id);
+        if (bindingResult.hasErrors()) {
+            return "editpost/" + id;
+        }
+        myPost.setId(id);
+        myPost.setText(post.getText());
+        myPost.setAdded(myPost.getAdded());
+        postService.save(myPost);
+        model.addAttribute("myPost", post);
+        return "redirect:/post/" + id;
     }
 
     @RequestMapping("/about")
@@ -80,9 +113,29 @@ public class PageController {
         if (bindingResult.hasErrors()) {
             return "addpost";
         }
-        postService.addPost(post);
+        postService.save(post);
         return ("redirect:/");
     }
+
+    @GetMapping("/delete/{id}")
+    public String delete(@PathVariable Long id, Model model, @RequestParam(name="p", defaultValue="1") int pageNumber){
+        Post post = postService.finDById(id);
+        postService.deleteById(id);
+
+        //
+        List<Post> posts = postService.findAllDesc();
+        int postCount = posts.size();
+        model.addAttribute("postCount", postCount);
+        //
+        Page<Post> page = postService.getPage(pageNumber);
+        model.addAttribute("page", page );
+        model.addAttribute("pageNumber", pageNumber );
+
+        //
+        return "redirect:/posts";
+    }
+
+
 
 
 

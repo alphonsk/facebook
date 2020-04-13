@@ -19,7 +19,7 @@ public class PostService {
     @Autowired
     private PostRepository postRepository;
 
-    public void addPost(Post post) {
+    public void save(Post post) {
         postRepository.save(post);
     }
 
@@ -45,7 +45,13 @@ public class PostService {
         return postRepository.findAll(request);
     }
 
+    public Post finDById(Long id) {
+        return postRepository.findById(id).get();
+    }
 
+    public void deleteById(Long id) {
+        postRepository.deleteById(id);
+    }
 
 
     //
