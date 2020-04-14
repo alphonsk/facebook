@@ -1,5 +1,7 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html
+        xmlns:th="http://www.thymeleaf.org"
+        xmlns:sec="http://www.thymeleaf.org/extras/spring-security" >
 
 <head th:fragment="header">
         <title>Home</title>
@@ -37,8 +39,17 @@
             <button type="submit" class="btn btn-default">Submit</button>
         </form>
         <ul class="nav navbar-nav navbar-right">
-            <li><a href="#"><span class="glyphicon glyphicon-user"></span> Sign Up</a></li>
-            <li><a href="#"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
+            <li sec:authorize="!isAuthenticated()"><a th:href="@{/signup}"><span class="glyphicon glyphicon-user"></span> Sign Up</a></li>
+            <li sec:authorize="!isAuthenticated()"><a th:href="@{/login}"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
+            <li sec:authorize="isAuthenticated()">
+                <a onclick="$('#form').submit();">
+                    <span class="glyphicon glyphicon-log-out" aria-hidden="true"></span>&nbsp;Logout
+                </a>
+                <form style="visibility: hidden" id="form" method="post"   th:action="@{/logout}"></form>
+            </li>
+            <li sec:authorize="isAuthenticated()">
+                <a href="${#}"> <span sec:authentication="name"></span></a>
+            </li>
         </ul>
     </div>
 </nav>
@@ -47,3 +58,7 @@
 
 
 </html>
+
+<!--<th sec:authorize="hasAnyRole('ROLE_USER','ROLE_ADMIN')">View</th>-->
+<!--<th sec:authorize="hasRole('ROLE_ADMIN')">Edit</th>-->
+<!--<th sec:authorize="hasRole('ROLE_ADMIN')">Delete</th>-->
