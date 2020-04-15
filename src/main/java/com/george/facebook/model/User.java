@@ -12,26 +12,46 @@ import java.util.List;
 @Entity
 public class User implements Serializable {
 
-    private static final long serialVersionUID = 1L;
     @Id
-    @NotNull(message = "{user.username.notnull}")
-    @Size(min = 4, max = 20, message = "{user.username.size}" )
-    private String username;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+//    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long id;
+
+    private static final long serialVersionUID = 1L;
+    @NotNull(message = "{user.email.notnull}")
+    @Column(unique = true)
+    @Size(min = 4, max = 20, message = "{user.email.size}")
+    private String email;
 
     @NotNull(message = "{user.password.notnull}")
-    @Size(min = 4, message = "{user.password.size}" )
+    @Size(min = 4, message = "{user.password.size}")
     private String password;
+
+    @NotNull(message = "{user.confirmPassword.notnull}")
+    private String confirmPassword;
 
     private String authority;
 
     private int enabled;
 
-    public String getUsername() {
-        return username;
+    public Long getId() {
+        return id;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public static long getSerialVersionUID() {
+        return serialVersionUID;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     public String getPassword() {
@@ -40,6 +60,14 @@ public class User implements Serializable {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public String getConfirmPassword() {
+        return confirmPassword;
+    }
+
+    public void setConfirmPassword(String confirmPassword) {
+        this.confirmPassword = confirmPassword;
     }
 
     public String getAuthority() {
@@ -60,64 +88,4 @@ public class User implements Serializable {
 }
 
 
-//@Entity
-//public class User {
-//
-//    @Id
-//    @GeneratedValue(strategy = GenerationType.IDENTITY)
-////    @GeneratedValue(strategy = GenerationType.AUTO)
-//    @Column(name = "id")
-//    private long id;
-//    @Column( unique = true)
-//    private String email;
-//    private String password;
-//    private String authority;
-//
-//
-//
-//    public User(String authority, String email, String password) {
-//        this.authority = authority;
-//        this.email = email;
-//        this.password = password;
-//    }
-////    private String confirmPassword;
-////    private Date date;
-//
-//
-//    public User() {
-//    }
-//
-//    public long getId() {
-//        return id;
-//    }
-//
-//    public void setId(long id) {
-//        this.id = id;
-//    }
-//
-//    public String getEmail() {
-//        return email;
-//    }
-//
-//    public void setEmail(String email) {
-//        this.email = email;
-//    }
-//
-//    public String getPassword() {
-//        return password;
-//    }
-//
-//    public void setPassword(String password) {
-//        this.password = password;
-//    }
-//
-//    public String getAuthority() {
-//        return authority;
-//    }
-//
-//    public void setAuthority(String authority) {
-//        this.authority = authority;
-//    }
-//
-//    //
-//}
+

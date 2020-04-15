@@ -22,14 +22,14 @@ public class UserService implements UserDetailsService {
     private UserRepository userRepository;
 
     @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        Optional<User> compUserOpt = userRepository.findById(username);
-        if (compUserOpt  == null ) {
-            throw new UsernameNotFoundException("Username not found");
+    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
+        User user = userRepository.findByEmail(email);
+        if (user == null ) {
+            throw new UsernameNotFoundException("email not found");
         }
-        User user = compUserOpt.get();
+
         GrantedAuthority authority = new SimpleGrantedAuthority(user.getAuthority());
-        UserDetails userDetails = (UserDetails)new org.springframework.security.core.userdetails.User(user.getUsername(),
+        UserDetails userDetails = (UserDetails)new org.springframework.security.core.userdetails.User(user.getEmail(),
                 user.getPassword(), Arrays.asList(authority));
         return userDetails;
     }
@@ -41,6 +41,10 @@ public class UserService implements UserDetailsService {
             user.setEnabled(1);
 
         //
+        if(!(user.getPassword().equals(user.getConfirmPassword()))){
+            return null;
+        }
+        
         PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
         String encodedPassword = passwordEncoder.encode(user.getPassword());
         user.setPassword(encodedPassword);

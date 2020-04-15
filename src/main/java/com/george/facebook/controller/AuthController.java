@@ -22,13 +22,15 @@ public class AuthController {
 
 
     @GetMapping("/login")
-    public String getLogin(){
+    public String getLogin(Model model, User user){
+        model.addAttribute("user", new User());
         return "login";
     }
 
 
     @PostMapping("/login")
     public String getin(){
+
         return "posts";
     }
 
