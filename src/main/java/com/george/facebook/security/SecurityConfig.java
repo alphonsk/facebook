@@ -40,9 +40,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http.authorizeRequests()
                 .antMatchers("/admin/**").access("hasRole('ADMIN')")
                 .antMatchers("/user/**").access("hasAnyRole('USER', 'ADMIN')")
-                .antMatchers("/", "/signup", "/login")
-                .permitAll()
+                .antMatchers("/", "/signup", "/login").permitAll()
+                .antMatchers("addpost","posts").authenticated()
                 .anyRequest().authenticated()
+//                .anyRequest().denyAll()
                 .and().formLogin()  //login configuration
                 .loginPage("/login")
                 .loginProcessingUrl("/login")
@@ -52,7 +53,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .and().logout()  //logout configuration
                 .logoutUrl("/logout")
                 .logoutSuccessUrl("/")
-                .and().exceptionHandling() //exception handling configuration
+                .and().exceptionHandling()//exception handling configuration
                 .accessDeniedPage("/error");
     }
 

@@ -8,11 +8,11 @@
         <div class="container">
             <div class="row">
                 <div class="col-sm-6">
-                    email;
-                    private String password;
-                    private String confirmPassword;
                 </div>
                 <div class="col-sm-6">
+                    <div class="alert alert-danger" style="color:red; text-align:center;"  th:if="${param.error}">
+                        <span > incorrect password or email </span>
+                    </div>
                     <form class="form-horizontal" th:action="@{/login}"   method="POST">
                         <div class="form-group">
                             <label class="control-label col-sm-2" for="email">Email:</label>

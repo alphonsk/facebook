@@ -49,6 +49,7 @@
             </li>
             <li sec:authorize="isAuthenticated()">
                 <a href="${#}"> <span sec:authentication="name"></span></a>
+                <span th:text="${userId}"> my userId</span>
             </li>
             <li style="margin-right:10px;"></li>
         </ul>

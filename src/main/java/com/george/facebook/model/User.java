@@ -4,6 +4,7 @@ import org.springframework.security.core.GrantedAuthority;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
 import java.util.Date;
@@ -19,14 +20,16 @@ public class User implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @NotNull(message = "{user.email.notnull}")
-    @Column(unique = true)
-    @Size(min = 4, max = 20, message = "{user.email.size}")
+    @Column(unique = true )
+    @Size(min = 4, max = 256, message = "{user.email.size}")
+    @Pattern(regexp = "^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$", message="{user.email.invalid}")
     private String email;
 
     @NotNull(message = "{user.password.notnull}")
     @Size(min = 4, message = "{user.password.size}")
     private String password;
 
+//    @Transient
     @NotNull(message = "{user.confirmPassword.notnull}")
     private String confirmPassword;
 

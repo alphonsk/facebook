@@ -2,6 +2,7 @@ package com.george.facebook.service;
 
 import com.george.facebook.model.Post;
 import com.george.facebook.repository.PostRepository;
+import org.assertj.core.internal.Iterables;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -46,11 +47,28 @@ public class PostService {
     }
 
     public Post finDById(Long id) {
-        return postRepository.findById(id).get();
+        Post post = null;
+        try {
+            post = postRepository.findById(id).get();
+        } finally {
+
+            if(post == null){
+                post = postRepository.findTopByOrderByIdDesc();
+            }
+
+            return post;
+        }
+
     }
 
     public void deleteById(Long id) {
         postRepository.deleteById(id);
+    }
+
+    public String getE(String error){
+        System.out.println("xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx");
+        System.out.println( error);
+        return " ";
     }
 
 
