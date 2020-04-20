@@ -51,6 +51,10 @@ public class PostController {
         model.addAttribute("page", page );
         model.addAttribute("pageNumber", pageNumber );
 
+        //
+        Long userId = getUserId();
+        model.addAttribute("userId", userId);
+
         return "post/posts";
     }
 
@@ -81,9 +85,11 @@ public class PostController {
     // get post
     @GetMapping("/post/{id}")
     public String getPost(Model model, @PathVariable Long id){
-        Post post = postService.finDById(id);
-//        post.setText();
+        Post post = postService.findById(id);
         model.addAttribute("post", post);
+        //
+        Long userId = getUserId();
+        model.addAttribute("userId", userId);
         return "post/post";
     }
 
@@ -91,9 +97,11 @@ public class PostController {
     // edit post
     @GetMapping("/editpost/{id}")
     public String editPost(Model model, @PathVariable Long id){
-        Post post = postService.finDById(id);
-//        post.setText();
+        Post post = postService.findById(id);
         model.addAttribute("post", post);
+        //
+        Long userId = getUserId();
+        model.addAttribute("userId", userId);
         return "post/editpost";
     }
 
@@ -101,7 +109,7 @@ public class PostController {
     // save edit post
     @PostMapping("/editpost/{id}")
     public String editPost(@Valid Post post, BindingResult bindingResult, Model model, @PathVariable Long id){
-        Post myPost = postService.finDById(id);
+        Post myPost = postService.findById(id);
         if (bindingResult.hasErrors()) {
             return "post/editpost/" + id;
         }
@@ -117,7 +125,7 @@ public class PostController {
     // delete post
     @GetMapping("/delete/{id}")
     public String delete(@PathVariable Long id, Model model, @RequestParam(name="p", defaultValue="1") int pageNumber){
-        Post post = postService.finDById(id);
+        Post post = postService.findById(id);
         postService.deleteById(id);
 
         //
@@ -134,6 +142,8 @@ public class PostController {
     }
 
 
+
+    //
     public Long  getUserId(){
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         String email = auth.getName();
@@ -141,10 +151,6 @@ public class PostController {
         User user = userService.findByEmail(email);
         if (user != null) {
             Long userId = user.getId();
-////        model.addAttribute("userId", userId);
-//            System.out.println(" ");
-//            System.out.println("xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx ");
-//            System.out.println("xxxx " + userId);
             return userId;
         }
         return 0l;

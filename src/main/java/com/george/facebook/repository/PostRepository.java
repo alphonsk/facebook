@@ -1,6 +1,7 @@
 package com.george.facebook.repository;
 
 import com.george.facebook.model.Post;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.stereotype.Repository;
@@ -16,8 +17,9 @@ public interface PostRepository extends PagingAndSortingRepository<Post, Long> {
 
     Post findTopByOrderByIdDesc();
 
+    Iterable<Post> findAllByUserId(Long id);
 
-
+    Iterable<Post> findAllByUserIdOrderByIdDesc(Long id);
 
 
     //

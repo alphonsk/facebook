@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security" >
+
+<head th:replace="main/layout :: header"></head>
+<body>
+<!--<nav class="navbar navbar-inverse"> </nav>-->
+<nav th:replace="main/layout :: navbar"></nav>
+
+
+<div class="container">
+    <div class="row">
+        <div class="col-sm-4">
+            <div class="panel panel-info" style="padding:20px 0">
+                <div class="container-fluid bg-1 text-center">
+                    <img th:src="@{/img/bird150.jpg}" class="img-circle" alt="Bird">
+    <!--                <img th:src="@{'/images/' + ${post.imageName}}"/>-->
+                </div>
+
+                <div class="container-fluid bg-2 text-center">
+                    <h3><span th:text="${profile.email.split('@')[0]}"></span></h3>
+
+                </div>
+
+                <div class="container-fluid bg-3 text-center">
+                    <span th:if="${profile.id} == ${userId}" >
+                    <a th:href="@{|/profile/${profile.id}|}" class="btn btn-success" role="button">Follow</a>
+                    <a th:href="@{|/profile/${profile.id}|}" class="btn btn-warning" role="button">unfollow</a>
+                    </span>
+                    <a sec:authorize="isAuthenticated()" th:href="@{|/profile/${userId}|}"class="btn btn-info" role="button">Edit</a>
+                </div>
+            </div>
+
+        </div>
+        <div class="col-sm-8">
+        <!--  -->
+            <div class="panel panel-info">
+                <div class="panel-heading" th:if="${ postCount > 0 }" style="text-align:center;">
+                    <span th:text="${postCount}"> </span><span> posts </span>
+                    <br>
+                    <a th:href="@{/addpost}">Add a post </a>
+                </div>
+
+                <div class="panel-heading" th:if="${ postCount <= 0 }" style="text-align:center;">
+                    <span> No post </span><a th:href="@{/addpost}">Add a post </a>
+                </div>
+
+                <div class="panel-body">
+                    <div th:each="post : ${posts}" >
+                        <!--  -->
+                        <div class="panel panel-info">
+                            <!--  -->
+                            <div class="panel-heading">
+                                <span th:text="${post.user.id}"></span> post#:&nbsp;<span th:text="${post.id}"> </span> &nbsp;&nbsp;date:&nbsp;<span th:text="${#dates.format(post.added, 'dd-MMM-yyyy')}"></span>
+                            </div>
+                            <!--  -->
+                            <div class="panel-body">
+                                <span th:text="${post.text}"></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+
+
+        <!--  -->
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

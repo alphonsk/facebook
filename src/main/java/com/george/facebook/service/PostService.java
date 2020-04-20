@@ -52,7 +52,7 @@ public class PostService {
         return postRepository.findAll(request);
     }
 
-    public Post finDById(Long id) {
+    public Post findById(Long id) {
         Post post = null;
         try {
             post = postRepository.findById(id).get();
@@ -71,11 +71,26 @@ public class PostService {
         postRepository.deleteById(id);
     }
 
+
+    public List<Post> findAllByUserId(Long id) {
+        List<Post> postList = new ArrayList<>();
+//        Iterable<Post> posts = postRepository.findAllByUserId(id);
+//        repository.findAll(Sort.by(Sort.Direction.DESC, "colName"));
+        Iterable<Post> posts = postRepository.findAllByUserIdOrderByIdDesc(id);
+        posts.forEach(postList::add);
+        return postList;
+    }
+
+
+
+
     public String getE(String error){
         System.out.println("xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx");
         System.out.println( error);
         return " ";
     }
+
+
 
 
     //

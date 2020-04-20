@@ -10,7 +10,7 @@
 <div class="container">
     <div class="panel panel-info">
         <div class="panel-heading">
-            post#:&nbsp;<span th:text="${post.id}"> </span> &nbsp;&nbsp;date:&nbsp;<span th:text="${#dates.format(post.added, 'dd-MMM-yyyy')}"></span>
+            <a th:href="@{|/profile/${post.user.id}|}">  <span th:text="${post.user.email.split('@')[0]}"></span></a>  post#:&nbsp;<span th:text="${post.id}"> </span> &nbsp;&nbsp;date:&nbsp;<span th:text="${#dates.format(post.added, 'dd-MMM-yyyy')}"></span>
         </div>
         <!--        -->
         <div class="panel-body">

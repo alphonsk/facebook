@@ -27,7 +27,7 @@
                             <div class="panel-heading">
                                 <div class="row">
                                     <div class="col-sm-4" style="">
-                                        date: &nbsp;<span th:text="${#dates.format(post.added, 'dd-MMM-yyyy')}"></span>
+                                        <a th:href="@{|/profile/${post.user.id}|}">  <span style="color:white;font-size: 16px;" th:text="${post.user.email.split('@')[0]}"></span></a> date: &nbsp;<span th:text="${#dates.format(post.added, 'dd-MMM-yyyy')}"></span>
                                     </div>
                                     <div class="col-sm-4" style="">
 

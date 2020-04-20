@@ -38,12 +38,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
-                .antMatchers("/admin/**").access("hasRole('ADMIN')")
-                .antMatchers("/user/**").access("hasAnyRole('USER', 'ADMIN')")
-                .antMatchers("/", "/signup", "/login").permitAll()
-                .antMatchers("addpost","posts").authenticated()
+//                .antMatchers("/admin/**").access("hasRole('ADMIN')")
+//                .antMatchers("/user/**").access("hasAnyRole('USER', 'ADMIN')")
+                .antMatchers("/", "/signup", "/login", "/profile/","/addpost","/posts").permitAll()
+//                .antMatchers("addpost","posts").authenticated()
                 .anyRequest().authenticated()
 //                .anyRequest().denyAll()
+//                .anyRequest().permitAll()
                 .and().formLogin()  //login configuration
                 .loginPage("/login")
                 .loginProcessingUrl("/login")
