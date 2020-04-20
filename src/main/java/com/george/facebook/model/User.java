@@ -9,6 +9,7 @@ import javax.validation.constraints.Size;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 public class User implements Serializable {
@@ -36,6 +37,13 @@ public class User implements Serializable {
     private String authority;
 
     private int enabled;
+
+    //
+//    @OneToMany(mappedBy="cart")
+//    private Set<Items> items;
+    @OneToMany(mappedBy="user")
+    private Set<Post> posts;
+
 
     public Long getId() {
         return id;

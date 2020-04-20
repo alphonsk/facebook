@@ -34,6 +34,8 @@ public class UserService implements UserDetailsService {
         return userDetails;
     }
 
+
+
     public User save(User user) {
         if (user.getAuthority() == null)
            user.setAuthority("ROLE_USER");
@@ -42,8 +44,6 @@ public class UserService implements UserDetailsService {
 
         // passwords dont match
         if(!(user.getPassword().equals(user.getConfirmPassword()))){
-            printError("passwords dont match" );
-            user.setPassword("passwords don't match");
             return null;
         }
 
@@ -53,8 +53,6 @@ public class UserService implements UserDetailsService {
         // email already in use
         User myUser = userRepository.findByEmail(user.getEmail());
         if (myUser != null ) {
-            user.setEmail("Email is already registered");
-            printError("email already in use " );
             return null;
         }
 
@@ -67,6 +65,19 @@ public class UserService implements UserDetailsService {
     }
 
 
+
+    public User findByEmail(String email) {
+        User user = null;
+        return  userRepository.findByEmail(email);
+
+    }
+
+    public User findById(Long userId) {
+        User user = userRepository.findById(userId).get();
+        return user;
+    }
+
+
     public String printError(String error ){
         System.out.println("xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx");
         System.out.println(" ");
@@ -75,11 +86,6 @@ public class UserService implements UserDetailsService {
         return "";
     }
 
-    public User findByEmail(String email) {
-        User user = null;
-        return  userRepository.findByEmail(email);
-
-    }
 
 //
 }

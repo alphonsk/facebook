@@ -35,6 +35,16 @@ public class Post {
         }
     }
 
+//    //...
+//    @ManyToOne
+//    @JoinColumn(name="cart_id", nullable=false)
+//    private Cart cart;
+
+    //...
+    @ManyToOne
+    @JoinColumn(name="user_id", nullable=false)
+    private User user;
+
     public Post() {
     }
 
@@ -69,6 +79,14 @@ public class Post {
 
     public void setAdded(Date added) {
         this.added = added;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 
     //

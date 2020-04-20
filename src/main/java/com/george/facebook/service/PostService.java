@@ -1,6 +1,7 @@
 package com.george.facebook.service;
 
 import com.george.facebook.model.Post;
+import com.george.facebook.model.User;
 import com.george.facebook.repository.PostRepository;
 import org.assertj.core.internal.Iterables;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,8 +20,13 @@ public class PostService {
 
     @Autowired
     private PostRepository postRepository;
+    @Autowired
+    private UserService userService;
 
     public void save(Post post) {
+        Long userId = post.getUser().getId();
+        User user = userService.findById(userId);
+        post.setUser(user);
         postRepository.save(post);
     }
 

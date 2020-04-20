@@ -58,6 +58,8 @@ public class PostController {
     // add post
     @RequestMapping("/addpost")
     public String addPost(Model model) {
+        Long userId = getUserId();
+        model.addAttribute("userId", userId);
         model.addAttribute("post", new Post());
         return "post/addpost";
     }
@@ -70,6 +72,7 @@ public class PostController {
         if (bindingResult.hasErrors()) {
             return "post/addpost";
         }
+
         postService.save(post);
         return ("redirect:/posts");
     }
@@ -138,10 +141,10 @@ public class PostController {
         User user = userService.findByEmail(email);
         if (user != null) {
             Long userId = user.getId();
-//        model.addAttribute("userId", userId);
-            System.out.println(" ");
-            System.out.println("xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx ");
-            System.out.println("xxxx " + userId);
+////        model.addAttribute("userId", userId);
+//            System.out.println(" ");
+//            System.out.println("xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx ");
+//            System.out.println("xxxx " + userId);
             return userId;
         }
         return 0l;

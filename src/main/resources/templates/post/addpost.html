@@ -1,5 +1,7 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" lang="en" >
+<html  lang="en"
+        xmlns:th="http://www.thymeleaf.org"
+        xmlns:sec="http://www.thymeleaf.org/extras/spring-security" >
 
 <head th:replace="main/layout :: header"></head>
 <body>
@@ -21,22 +23,12 @@
                             <span th:if="${#fields.hasErrors('text')}" th:errors="*{text}" class="error">Name Error</span>
                         </div>
                     </div>
-
-<!--                    <div class="form-group" th:classappend="${#fields.hasErrors('text')} ? has-error : ''">-->
-<!--                        <label class="control-label col-sm-2" for="text">add post:</label>-->
-<!--                        <div class="col-sm-10" th:classappend="${#fields.hasErrors('text')} ? 'input-icon right' : ''">-->
-<!--                            <i th:if="${#fields.hasErrors('text')}" class="fa fa-exclamation tooltips" data-original-title="please enter a valid post" data-container="body"></i>-->
-<!--                            <input type="text" class="form-control" id="text" placeholder="Enter last name" name="text" th:field="*{text}">-->
-<!--                            <span th:if="${#fields.hasErrors('text')}" class="help-block" th:errors="*{text}"></span>-->
-<!--                        </div>-->
-<!--                    </div>-->
-
-<!--                    <div class="form-group">-->
-<!--                        <label class="control-label col-sm-2" for="pwd">Password:</label>-->
-<!--                        <div class="col-sm-10">-->
-<!--                            <input type="password" class="form-control" id="pwd" placeholder="Enter password" name="pwd">-->
-<!--                        </div>-->
-<!--                    </div>-->
+                    <div class="form-group">
+                        <label class="control-label col-sm-2" for="user"> </label>
+                        <div class="col-sm-10" sec:authorize="isAuthenticated()">
+                            <input type="hidden" name="user" id="user" th:value="${userId}"/>
+                        </div>
+                    </div>
 
                     <div class="form-group">
                         <div class="col-sm-offset-2 col-sm-10">
