@@ -22,8 +22,10 @@ import com.george.facebook.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -37,11 +39,18 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
+        String[] resources = new String[]{
+                "/", "/home","/pictureCheckCode","/include/**","/img/**",
+                "/css/**","/icons/**","/images/**","/js/**","/layer/**"
+        };
+
         http.authorizeRequests()
-//                .antMatchers("/admin/**").access("hasRole('ADMIN')")
-//                .antMatchers("/user/**").access("hasAnyRole('USER', 'ADMIN')")
-                .antMatchers("/", "/signup", "/login", "/profile/","/addpost","/posts").permitAll()
-//                .antMatchers("addpost","posts").authenticated()
+                .antMatchers(resources).permitAll()
+                .antMatchers("/admin/**").access("hasRole('ADMIN')")
+                .antMatchers("/user/**").access("hasAnyRole('USER', 'ADMIN')")
+                .antMatchers("/", "/signup", "/login").permitAll()
+                .antMatchers(HttpMethod.GET, "/profile/{^[\\d]$}").permitAll()
+                .antMatchers("addpost","posts", "/profile/").authenticated()
                 .anyRequest().authenticated()
 //                .anyRequest().denyAll()
 //                .anyRequest().permitAll()
@@ -62,6 +71,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth.userDetailsService(userService).passwordEncoder(passwordEncoder());
     }
+
 
     @Bean
     public PasswordEncoder passwordEncoder() {

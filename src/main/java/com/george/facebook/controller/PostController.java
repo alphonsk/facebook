@@ -77,7 +77,10 @@ public class PostController {
             return "post/addpost";
         }
 
-        postService.save(post);
+        Post newPost = postService.save(post);
+        if (post == null){
+            return "post/addpost";
+        }
         return ("redirect:/posts");
     }
 
@@ -116,8 +119,12 @@ public class PostController {
         myPost.setId(id);
         myPost.setText(post.getText());
         myPost.setAdded(myPost.getAdded());
-        postService.save(myPost);
         model.addAttribute("myPost", post);
+
+        Post newPost = postService.save(myPost);
+        if (post == null){
+            return "post/editpost/" + id;
+        }
         return "redirect:/post/" + id;
     }
 

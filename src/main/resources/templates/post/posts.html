@@ -22,26 +22,8 @@
                 <div class="panel-body">
                     <div th:each="post : ${page.getContent()}" >
                         <!--  -->
-                        <div class="panel panel-info">
-                            <!--  -->
-                            <div class="panel-heading">
-                                <div class="row">
-                                    <div class="col-sm-4" style="">
-                                        <a th:href="@{|/profile/${post.user.id}|}">  <span style="color:white;font-size: 16px;" th:text="${post.user.email.split('@')[0]}"></span></a> date: &nbsp;<span th:text="${#dates.format(post.added, 'dd-MMM-yyyy')}"></span>
-                                    </div>
-                                    <div class="col-sm-4" style="">
+                        <div th:replace="post/post-layout :: posts"></div>
 
-                                    </div>
-                                    <div class="col-sm-4" >
-                                        <a th:href="@{|/editpost/${post.id}|}"> edit </a><a th:href="@{|/delete/${post.id}|}"> delete </a>
-                                    </div>
-                                </div>
-                            </div>
-                            <!--  -->
-                            <div class="panel-body">
-                                <span th:text="${post.text}"></span>
-                            </div>
-                        </div>
                     </div>
                 </div>
                 <!--  -->

@@ -3,20 +3,33 @@
         xmlns:th="http://www.thymeleaf.org"
         xmlns:sec="http://www.thymeleaf.org/extras/spring-security" >
 
-<head th:fragment="header">
-        <title>Home</title>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
-        <link rel="stylesheet" th:href="@{/css/formatting.css}">
-        <link rel="stylesheet" type="text/css" th:href="@{/css/style.css}"/>
-    </head>
+
+<div th:fragment="posts" class="panel panel-info">
+    <!--  -->
+    <div class="panel-heading">
+        <div class="row">
+            <div class="col-sm-4" style="">
+                <a th:href="@{|/profile/${post.user.id}|}">  <span style="color:black;font-size: 16px;weight:bold;margin:5px10px;" th:text="${post.user.email.split('@')[0]}"></span></a> date: &nbsp;<span th:text="${#dates.format(post.added, 'dd-MMM-yyyy')}"></span>
+            </div>
+            <div class="col-sm-4" style="">
+
+            </div>
+            <div class="col-sm-4" >
+                <span sec:authorize="isAuthenticated()" th:if="${post.user.id} == ${userId}" >
+                    <a th:href="@{|/editpost/${post.id}|}"> edit </a><a th:href="@{|/delete/${post.id}|}"> delete </a>
+                </span>
+            </div>
+        </div>
+    </div>
+    <!--  -->
+    <div class="panel-body">
+        <span th:text="${post.text}"></span>
+    </div>
+</div>
 
 
 <nav th:fragment ="navbar" class="navbar navbar-expand-lg navbar-dark bg-dark">
-<!--    class="navbar navbar-inverse"-->
+    <!--    class="navbar navbar-inverse"-->
     <div class="container-fluid">
         <div class="navbar-header">
             <a class="navbar-brand" th:href="@{/}">Facebook</a>
@@ -39,7 +52,7 @@
                 <ul class="dropdown-menu">
                     <li><a th:href="@{|/profile/${userId}|}"> profile </a></li>
                     <li><a th:href="@{|/profile/${userId}|}"> profile </a></li>
-<!--                    <li><a th:href="@{/profile/2}">Posts</a></li>-->
+                    <li><a th:href="@{/profile/2}">Posts</a></li>
                     <li><a href="#"></a></li>
                 </ul>
             </li>

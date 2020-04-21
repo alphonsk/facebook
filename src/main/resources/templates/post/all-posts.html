@@ -22,16 +22,7 @@
         <div class="panel-body">
             <div th:each="post : ${posts}" >
                 <!--  -->
-                <div class="panel panel-info">
-                    <!--  -->
-                    <div class="panel-heading">
-                        <a th:href="@{|/profile/${post.user.id}|}">  <span th:text="${post.user.email.split('@')[0]}"></span></a>  post#:&nbsp;<span th:text="${post.id}"> </span> &nbsp;&nbsp;date:&nbsp;<span th:text="${#dates.format(post.added, 'dd-MMM-yyyy')}"></span>
-                    </div>
-                    <!--  -->
-                    <div class="panel-body">
-                        <span th:text="${post.text}"></span>
-                    </div>
-                </div>
+                <div th:replace="post/post-layout :: posts"></div>
             </div>
         </div>
 

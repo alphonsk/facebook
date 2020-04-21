@@ -38,11 +38,15 @@ public class User implements Serializable {
 
     private int enabled;
 
-    //
-//    @OneToMany(mappedBy="cart")
-//    private Set<Items> items;
     @OneToMany(mappedBy="user")
     private Set<Post> posts;
+
+//    @OneToOne
+//    @PrimaryKeyJoinColumn
+//    private Person person;
+    @OneToOne
+    @PrimaryKeyJoinColumn
+    private Profile profile;
 
 
     public Long getId() {

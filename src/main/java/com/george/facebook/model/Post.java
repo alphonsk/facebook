@@ -48,14 +48,14 @@ public class Post {
     public Post() {
     }
 
-    public Post(String text) {
-        this.text = text;
-    }
+//    public Post(String text) {
+//        this.text = text;
+//    }
 
-    public Post(String text, Date added) {
-        this.text = text;
-        this.added = added;
-    }
+//    public Post(String text, Date added) {
+//        this.text = text;
+//        this.added = added;
+//    }
 
     public Long getId() {
         return id;

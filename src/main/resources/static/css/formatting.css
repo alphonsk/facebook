@@ -18,7 +18,15 @@
 }
 
 .bg-3 {
-  /*
+ text-align: left;
+  /*text-color: #474e5d;
+  font-weight: bold;
     background-color: #ffffff; /* White
     color: #555555;*/
+}
+
+.bg-3-label {
+    color:#31708f;
+    font-size: 16px;
+
 }
