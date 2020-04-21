@@ -3,7 +3,7 @@
       xmlns:sec="http://www.thymeleaf.org/extras/spring-security" >
 
 <head th:replace="main/layout :: header"></head>
-<body>
+
 <!--<nav class="navbar navbar-inverse"> </nav>-->
 <nav th:replace="main/layout :: navbar"></nav>
 
@@ -30,10 +30,23 @@
 
                 <div class="container-fluid bg-4 text-center">
                     <span sec:authorize="isAuthenticated()" th:if="${profile.id} != ${userId}" >
-                    <a th:href="@{|/profile/${profile.id}|}" class="btn btn-success" role="button">Follow</a>
-                    <a th:href="@{|/profile/${profile.id}|}" class="btn btn-warning" role="button">unfollow</a>
+                    <a th:href="@{|/profile/${profile.id}|}" class="btn btn-success btn-sm" role="button">Follow</a>
+                    <a th:href="@{|/profile/${profile.id}|}" class="btn btn-warning btn-sm" role="button">unfollow</a>
                     </span>
-                    <a sec:authorize="isAuthenticated()" th:href="@{|/profile/edit/${userId}|}"class="btn btn-info" role="button">Edit</a>
+                    <!--  -->
+                    <div th:replace="profile/email :: email"></div>
+                </div>
+                <div class="container-fluid bg-4 text-center">
+                    <span th:if="${email}">
+                        <div class="alert alert-danger" style="color:red; text-align:center;" th:if="${email}">
+                            <p> Your email/passwords was not updated </p>
+                        </div>
+                    </span>
+                    <span sec:authorize="isAuthenticated()" th:if="${profile.id} == ${userId}"  >
+                        <button type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#edit-email">Edit Email</button>
+                        <button type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#edit-bio">Edit Bio</button>
+                    </span>
+
                 </div>
 
             </div>
@@ -66,7 +79,20 @@
         <!--  -->
         </div>
     </div>
+
+    <!-- email -modal -->
+    <div th:replace="profile/email :: email"></div>
+
+    <!-- bio modal -->
+    <div th:replace="profile/email :: bio"></div>
+
+
+
+
+<!-- container -->
 </div>
+
+
 
 </body>
 </html>

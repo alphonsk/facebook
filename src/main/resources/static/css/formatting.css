@@ -25,8 +25,28 @@
     color: #555555;*/
 }
 
+.bg-4 {
+    padding-top: 10px;
+}
+
 .bg-3-label {
     color:#31708f;
     font-size: 16px;
 
+}
+
+.modal-header{
+    color: #31708f;
+     background-color: #d9edf7;
+     border-color: #bce8f1;
+}
+
+.modal-title {
+    text-align: center;
+}
+
+.modal-footer {
+    color: #000;
+     background-color: #d9edf7;
+     border-color: #bce8f1;
 }

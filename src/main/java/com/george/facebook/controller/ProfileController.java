@@ -15,8 +15,11 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.support.RequestContextUtils;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
+import java.util.Map;
 
 @Controller
 @RequestMapping("/profile")
@@ -30,28 +33,34 @@ public class ProfileController {
     private ProfileService profileService;
 
     @GetMapping("{id}")
-    public String getProfile(Model model, @PathVariable Long id){
+    public String getProfile(Model model, @PathVariable Long id, HttpServletRequest request){
         List<Post> posts = postService.findAllByUserId(id);
 //        List<Post> posts = postService.findAllDesc();
         int postCount = posts.size();
         model.addAttribute("posts", posts);
         model.addAttribute("postCount", postCount);
-        //
+        // loggein in user
         Long userId = getUserId();
         model.addAttribute("userId", userId);
 
+        User user = userService.findById(userId);
+        model.addAttribute("user", user);
+
+        // profile visited
         User profile = userService.findById(id);
+        profile.setPassword("");
         model.addAttribute("profile", profile);
 
         Profile bio = profileService.findById(id);
         model.addAttribute("bio", bio);
-//        if (userId != id){
-//            System.out.println(" ");
-//            System.out.println(" ");
-//            System.out.println(" user id n equal " + userId + "id" + id);
-//            return "redirect:/";
-//        }
 
+        // redirect an obj from another controller AuthController
+        Map<String, ?> flashMap = RequestContextUtils.getInputFlashMap(request);
+        if(flashMap != null){
+//            String emailId =  (String) flashMap.get("email");
+//            System.out.println(emailId);
+            model.addAttribute("email", user.getEmail());
+        }
         return "profile/profile";
     }
 
@@ -73,6 +82,7 @@ public class ProfileController {
         if (usedId != id)
             id = usedId;
         User user = userService.findById(id);
+        user.setPassword("");
         model.addAttribute("user", user);
         model.addAttribute("id", id);
 
@@ -95,6 +105,8 @@ public class ProfileController {
         }
         return "redirect:/profile/" + usedId;
     }
+
+
 
 
 

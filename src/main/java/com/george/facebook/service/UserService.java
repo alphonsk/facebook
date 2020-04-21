@@ -64,6 +64,35 @@ public class UserService implements UserDetailsService {
         return userRepository.save(user);
     }
 
+    // update
+    public User update(User user, Long userId) {
+        if (user.getAuthority() == null)
+            user.setAuthority("ROLE_USER");
+        if (user.getEnabled() == 0)
+            user.setEnabled(1);
+
+        // passwords dont match
+        if(!(user.getPassword().equals(user.getConfirmPassword()))){
+            return null;
+        }
+
+        // dont store confrimedPassword
+        user.setConfirmPassword("");
+        //
+        User currentUser = findById(userId);
+        currentUser.setId(userId);
+        currentUser.setEmail(user.getEmail());
+        currentUser.setAuthority(user.getAuthority());
+        currentUser.setEnabled(user.getEnabled());
+        //
+        PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+        String encodedPassword = passwordEncoder.encode(user.getPassword());
+        currentUser.setPassword(encodedPassword);
+
+        return userRepository.save(currentUser);
+    }
+
+
 
 
     public User findByEmail(String email) {
@@ -73,7 +102,13 @@ public class UserService implements UserDetailsService {
     }
 
     public User findById(Long userId) {
-        User user = userRepository.findById(userId).get();
+        User user = null;
+        try {
+            user = userRepository.findById(userId).get();
+        } finally {
+            if (user == null)
+                return user;
+        }
         return user;
     }
 
@@ -85,6 +120,7 @@ public class UserService implements UserDetailsService {
         System.out.println("xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx");
         return "";
     }
+
 
 
 //

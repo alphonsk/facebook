@@ -34,16 +34,18 @@
         <ul class="nav navbar-nav navbar-right">
             <li class="dropdown" sec:authorize="isAuthenticated()">
                 <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-                    <span sec:authentication="name"></span><span class="caret"></span>
+                    <span sec:authentication="name"></span>&nbsp;&nbsp; <span class="caret"></span>
                 </a>
                 <ul class="dropdown-menu">
+                    <!--                    <li><a th:href="@{|/profile/${userId}|}"> profile </a></li>-->
                     <li><a th:href="@{|/profile/${userId}|}"> profile </a></li>
-                    <li><a th:href="@{|/profile/${userId}|}"> profile </a></li>
-<!--                    <li><a th:href="@{/profile/2}">Posts</a></li>-->
+                    <!--                    <li><a th:href="@{/profile/2}">Posts</a></li>-->
                     <li><a href="#"></a></li>
                 </ul>
             </li>
-
+<!--                <th:block th:with="flowersx = ${ {'Lily','james'} }">-->
+<!--                <th:block th:with="flowersx = ${ {'Lily'} }"> -->
+<!--                <span th:text="${flowers}"></span> -->
             <li sec:authorize="!isAuthenticated()"><a th:href="@{/signup}"><span class="glyphicon glyphicon-user"></span> Sign Up</a></li>
             <li sec:authorize="!isAuthenticated()"><a th:href="@{/login}"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
             <li sec:authorize="isAuthenticated()">
