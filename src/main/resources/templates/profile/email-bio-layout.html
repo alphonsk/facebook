@@ -82,7 +82,7 @@
                                     <p> Your email is already registered or your passwords don't march </p>
                                 </div>
 
-                                <form class="form-horizontal" th:action="@{/update}" th:object="${user}" method="POST">
+                                <form class="form-horizontal" th:action="@{/update}" th:object="${user}" th:if="${user}" method="POST">
                                     <div class="form-group">
                                         <div class="alert alert-danger" style="color:red; text-align:center;" th:if="${#fields.hasErrors('*')}">
                                             <p th:each="err : ${#fields.errors('*')}" th:text="${err}"></p>

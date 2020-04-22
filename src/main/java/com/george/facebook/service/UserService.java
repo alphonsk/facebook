@@ -50,7 +50,7 @@ public class UserService implements UserDetailsService {
 
     public User save(User user) {
         if (user.getAuthority() == null)
-           user.setAuthority("ROLE_USER");
+            user.setAuthority("ROLE_USER");
         if (user.getEnabled() == 0)
             user.setEnabled(1);
 
@@ -123,7 +123,7 @@ public class UserService implements UserDetailsService {
         // passwords logic match, length
         boolean march = false;
         if (user.getPassword().length() > 0) {
-            if (user.getPassword().length() < 4)
+            if (user.getPassword().length() < 6)
                 return null;
 
             march = (user.getPassword().toString()).equals(user.getConfirmPassword().toString());
@@ -175,6 +175,14 @@ public class UserService implements UserDetailsService {
         System.out.println("xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx");
         return "";
     }
+
+    // find the last item
+    public Long findTopByOrderByIdDesc() {
+        User user = userRepository.findTopByOrderByIdDesc();
+        Long id = user.getId();
+        return  id;
+    }
+
 
 
 

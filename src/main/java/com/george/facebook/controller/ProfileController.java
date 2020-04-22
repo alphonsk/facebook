@@ -34,11 +34,6 @@ public class ProfileController {
 
     @GetMapping("{id}")
     public String getProfile(Model model, @PathVariable Long id, HttpServletRequest request){
-        List<Post> posts = postService.findAllByUserId(id);
-//        List<Post> posts = postService.findAllDesc();
-        int postCount = posts.size();
-        model.addAttribute("posts", posts);
-        model.addAttribute("postCount", postCount);
         // loggein in user
         Long userId = getUserId();
         model.addAttribute("userId", userId);
@@ -48,11 +43,22 @@ public class ProfileController {
 
         // profile visited
         User profile = userService.findById(id);
+        if (profile == null) {
+            id = userService.findTopByOrderByIdDesc();
+            profile = userService.findById(id);
+        }
         profile.setPassword("");
         model.addAttribute("profile", profile);
 
         Profile bio = profileService.findById(id);
         model.addAttribute("bio", bio);
+
+        List<Post> posts = postService.findAllByUserId(id);
+//        List<Post> posts = postService.findAllDesc();
+        int postCount = posts.size();
+        model.addAttribute("posts", posts);
+        model.addAttribute("postCount", postCount);
+
 
         // redirect an obj from another controller AuthController
         Map<String, ?> flashMap = RequestContextUtils.getInputFlashMap(request);
@@ -68,6 +74,7 @@ public class ProfileController {
         }
         return "profile/profile";
     }
+
 
     @GetMapping("/new")
     public String newProfile(Model model){
