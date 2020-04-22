@@ -113,9 +113,16 @@ public class PostController {
     @PostMapping("/editpost/{id}")
     public String editPost(@Valid Post post, BindingResult bindingResult, Model model, @PathVariable Long id){
         Post myPost = postService.findById(id);
+        String text = post.getText().trim();
+
         if (bindingResult.hasErrors()) {
-            return "post/editpost/" + id;
+            return "redirect:/post/" + id;
         }
+
+        if (text.length()< 1) {
+            return "redirect:/post/" + id;
+        }
+
         myPost.setId(id);
         myPost.setText(post.getText());
         myPost.setAdded(myPost.getAdded());
@@ -123,7 +130,7 @@ public class PostController {
 
         Post newPost = postService.save(myPost);
         if (post == null){
-            return "post/editpost/" + id;
+            return "redirect:/post/" + id;
         }
         return "redirect:/post/" + id;
     }

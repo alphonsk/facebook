@@ -90,12 +90,31 @@ public class AuthController {
 //        }
 
         oldUserId = getUserId();
-        //
         String oldEmail = userService.findById(oldUserId).getEmail().toString();
+
+        boolean isEmailInUse = isEmailInUse(user.getEmail(), oldEmail);
+        System.out.println(" user.getEmail() " + user.getEmail());
+        System.out.println("oldEmail "+ oldEmail);
+        System.out.println((user.getEmail()).equals(oldEmail));
+        if (!isEmailInUse){
+            redirectAttributes.addFlashAttribute("emailInUseError", user.getEmail());
+            return "redirect:/profile/" + getUserId();
+        }
+        if (user.getEmail().length() < 4 ){
+            redirectAttributes.addFlashAttribute("emailError", user.getEmail());
+            return "redirect:/profile/" + getUserId();
+        }
+        if (user.getPassword().length() > 0) {
+            if (!((user.getPassword()).equals(user.getVerifyPassword()))) {
+                redirectAttributes.addFlashAttribute("passwordMarchError", user.getEmail());
+                return "redirect:/profile/" + getUserId();
+            }
+        }
+
+
         User newUser = userService.update(user, getUserId());
         if (newUser == null){
-//            private Boolean isEmailInUse(newUser.getEmail(), oldEmail);
-            redirectAttributes.addFlashAttribute("email", user.getEmail());
+            redirectAttributes.addFlashAttribute("passwordError", user.getEmail());
             return "redirect:/profile/" + getUserId();
         } else {
             // delete session after successfully changing pw or email

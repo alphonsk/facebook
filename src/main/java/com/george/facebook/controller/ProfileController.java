@@ -57,9 +57,14 @@ public class ProfileController {
         // redirect an obj from another controller AuthController
         Map<String, ?> flashMap = RequestContextUtils.getInputFlashMap(request);
         if(flashMap != null){
-//            String emailId =  (String) flashMap.get("email");
-//            System.out.println(emailId);
-            model.addAttribute("email", user.getEmail());
+            String emailError = (String) flashMap.get("emailError");
+            String emailInUseError = (String) flashMap.get("emailInUseError");
+            String passwordError = (String) flashMap.get("passwordError");
+            String passwordMarchError = (String) flashMap.get("passwordMarchError");
+//            i like the top better
+//            model.addAttribute("emailError", user.getEmail());
+//            model.addAttribute("emailInUseError", user.getEmail());
+//            model.addAttribute("passwordError", user.getEmail());
         }
         return "profile/profile";
     }

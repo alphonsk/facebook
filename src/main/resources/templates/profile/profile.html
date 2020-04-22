@@ -37,9 +37,24 @@
 <!--                    <div th:replace="profile/email-bio-layout :: email"></div>-->
                 </div>
                 <div class="container-fluid bg-4 text-center">
-                    <span th:if="${email}">
-                        <div class="alert alert-danger" style="color:red; text-align:center;" th:if="${email}">
-                            <p> Your email/password was not updated </p>
+                    <span th:if="${passwordError}">
+                        <div class="alert alert-danger" style="color:red; text-align:center;" >
+                            <p> Your password is incorrect </p>
+                        </div>
+                    </span>
+                    <span th:if="${passwordMarchError}">
+                        <div class="alert alert-danger" style="color:red; text-align:center;" >
+                            <p> Your password do not march </p>
+                        </div>
+                    </span>
+                    <span th:if="${emailError}">
+                        <div class="alert alert-danger" style="color:red; text-align:center;" >
+                            <p> Your email is invalid  </p>
+                        </div>
+                    </span>
+                    <span th:if="${emailInUseError}">
+                        <div class="alert alert-danger" style="color:red; text-align:center;" >
+                            <p> That email is already taken </p>
                         </div>
                     </span>
                     <span sec:authorize="isAuthenticated()" th:if="${profile.id} == ${userId}"  >

@@ -123,7 +123,7 @@ public class UserService implements UserDetailsService {
         // passwords logic match, length
         boolean march = false;
         if (user.getPassword().length() > 0) {
-            if (user.getPassword().length() < 6)
+            if (user.getPassword().length() < 4)
                 return null;
 
             march = (user.getPassword().toString()).equals(user.getConfirmPassword().toString());
