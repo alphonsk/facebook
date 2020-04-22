@@ -34,9 +34,6 @@ public class AuthController {
     //
     @GetMapping("/login")
     public String getLogin(Model model, User user, HttpServletRequest request){
-        System.out.println(" 1");
-        System.out.println(" 2");
-        System.out.println(" 3");
         model.addAttribute("user", new User());
         // redirect an obj from another controller update
         Map<String, ?> flashMap = RequestContextUtils.getInputFlashMap(request);
@@ -45,12 +42,18 @@ public class AuthController {
 //            System.out.println(emailId);
             model.addAttribute("reLogin", new User());
         }
+
         return "register/login";
     }
 
     //
     @PostMapping("/login")
     public String getin(){
+        Long id = getUserId();
+        User user = userService.findById(id);
+        System.out.println(" ");
+        System.out.println(" from auth controller login");
+        System.out.println(" from auth controller login user password" + user.getPassword());
         return "post/posts";
     }
 
@@ -80,26 +83,22 @@ public class AuthController {
     @PostMapping("/update")
     public String userUpdate(Model model, @Valid User user, BindingResult result, RedirectAttributes redirectAttributes,
                              HttpServletRequest request, HttpServletResponse response){
-        if (result.hasErrors()) {
-            // redirect an obj to another controller profileController
-            redirectAttributes.addFlashAttribute("email", user.getEmail());
-            return "redirect:/profile/" + getUserId() ;
-        }
+//        if (result.hasErrors()) {
+//            // redirect an obj to another controller profileController
+//            redirectAttributes.addFlashAttribute("email", user.getEmail());
+//            return "redirect:/profile/" + getUserId() ;
+//        }
+
         oldUserId = getUserId();
         //
         String oldEmail = userService.findById(oldUserId).getEmail().toString();
-
         User newUser = userService.update(user, getUserId());
         if (newUser == null){
+//            private Boolean isEmailInUse(newUser.getEmail(), oldEmail);
             redirectAttributes.addFlashAttribute("email", user.getEmail());
             return "redirect:/profile/" + getUserId();
-        }
-
-        //
-        if ((oldEmail).equals(newUser.getEmail()) ) {
-            return "redirect:/profile/" + getUserId();
         } else {
-            // delete session
+            // delete session after successfully changing pw or email
             Authentication auth = SecurityContextHolder.getContext().getAuthentication();
             new SecurityContextLogoutHandler().logout(request, response, auth);
             // redirect an obj to another controller
@@ -150,6 +149,17 @@ public class AuthController {
             return userId;
         }
         return 0l;
+    }
+
+    // email already in use
+    private Boolean isEmailInUse(String newEmail, String currentEmail){
+        if (!(newEmail).equals(currentEmail) ) {
+            User registeredEmail = userService.findByEmail(newEmail);
+            if (registeredEmail != null) {
+                return false;
+            }
+        }
+        return true;
     }
 
 

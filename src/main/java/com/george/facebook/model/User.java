@@ -34,6 +34,9 @@ public class User implements Serializable {
     @NotNull(message = "{user.confirmPassword.notnull}")
     private String confirmPassword;
 
+//    @NotNull(message = "{user.verifyPassword.notnull}")
+    private String verifyPassword;
+
     private String authority;
 
     private int enabled;
@@ -99,6 +102,14 @@ public class User implements Serializable {
 
     public void setEnabled(int enabled) {
         this.enabled = enabled;
+    }
+
+    public String getVerifyPassword() {
+        return verifyPassword;
+    }
+
+    public void setVerifyPassword(String verifyPassword) {
+        this.verifyPassword = verifyPassword;
     }
 }
 

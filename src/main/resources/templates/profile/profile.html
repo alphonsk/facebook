@@ -34,12 +34,12 @@
                     <a th:href="@{|/profile/${profile.id}|}" class="btn btn-warning btn-sm" role="button">unfollow</a>
                     </span>
                     <!--  -->
-                    <div th:replace="profile/email :: email"></div>
+<!--                    <div th:replace="profile/email-bio-layout :: email"></div>-->
                 </div>
                 <div class="container-fluid bg-4 text-center">
                     <span th:if="${email}">
                         <div class="alert alert-danger" style="color:red; text-align:center;" th:if="${email}">
-                            <p> Your email/passwords was not updated </p>
+                            <p> Your email/password was not updated </p>
                         </div>
                     </span>
                     <span sec:authorize="isAuthenticated()" th:if="${profile.id} == ${userId}"  >
@@ -81,10 +81,10 @@
     </div>
 
     <!-- email -modal -->
-    <div th:replace="profile/email :: email"></div>
+    <div th:replace="profile/email-bio-layout :: email"></div>
 
     <!-- bio modal -->
-    <div th:replace="profile/email :: bio"></div>
+    <div th:replace="profile/email-bio-layout :: bio"></div>
 
 
 
