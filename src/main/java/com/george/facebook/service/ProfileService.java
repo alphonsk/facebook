@@ -1,31 +1,31 @@
 package com.george.facebook.service;
 
 import com.george.facebook.model.Profile;
-import com.george.facebook.model.Profile;
+import com.george.facebook.model.Avatar;
 import com.george.facebook.model.User;
-import com.george.facebook.repository.PostRepository;
 import com.george.facebook.repository.ProfileRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Sort;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 
 @Service
 public class ProfileService {
 
-     
+
     @Autowired
     private ProfileRepository profileRepository;
     @Autowired
     private UserService userService;
+    @Autowired
+    private AvatarService avatarService;
 
-    public Profile save(Profile profile) {
-        Long userId = profile.getUser().getId();
+    // save profile
+    public Profile save(Profile profile, MultipartFile avatar ) {
+        Long userId = getUserId();
         User user = userService.findById(userId);
         profile.setUser(user);
         profile.setId(userId);
@@ -37,20 +37,86 @@ public class ProfileService {
         if (pro == null)
             return null;
 
+        user.setProfile(pro);
+        userService.save(user);
+
+        // save avatar
+        if (!avatar.isEmpty()) {
+            Avatar ava = avatarService.save(avatar, pro);
+            if (ava == null)
+                return null;
+        }
+
         return pro;
     }
 
+    // find profile
     public Profile findById(Long id){
         Profile profile = null;
         try {
             profile = profileRepository.findById(id).get();
         } finally {
             if (profile == null)
-                return new Profile();
+                return null;
             return profile;
         }
 
     }
+
+    // find the last profile
+    public Long findTopByOrderByIdDesc() {
+        Profile profile = profileRepository.findTopByOrderByIdDesc();
+        Long id = profile.getId();
+        return  id;
+    }
+
+
+    // private
+    private Long  getUserId(){
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        String email = auth.getName();
+
+        User user = userService.findByEmail(email);
+        if (user != null) {
+            Long userId = user.getId();
+            return userId;
+        }
+        return 0l;
+    }
+
+
+
+//
+//
+//        if (file.isEmpty()) {
+//        redirectAttributes.addFlashAttribute("message", "Please select a file to upload");
+//        return "redirect:uploadStatus";
+//    }
+//
+//        try {
+//
+//        // Get the file and save it somewhere
+//        byte[] bytes = file.getBytes();
+//        Path path = Paths.get(UPLOADED_FOLDER + file.getOriginalFilename());
+//        Files.write(path, bytes);
+//
+//        redirectAttributes.addFlashAttribute("message",
+//                "You successfully uploaded '" + file.getOriginalFilename() + "'");
+//
+//    } catch (
+//    IOException e) {
+//        e.printStackTrace();
+//    }
+//
+//        return "redirect:/uploadStatus";
+
+
+
+
+
+//
+
+
 
 //    public List<Profile> findAll() {
 //        List<Profile> postList = new ArrayList<>();
@@ -111,7 +177,6 @@ public class ProfileService {
         System.out.println( error);
         return " ";
     }
-
 
 
 

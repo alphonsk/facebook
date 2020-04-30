@@ -10,9 +10,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.servlet.support.RequestContextUtils;
 
@@ -20,6 +18,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 import java.util.Map;
+import java.util.List;
 
 @Controller
 public class AuthController {
@@ -125,6 +124,24 @@ public class AuthController {
             return "redirect:/login";
         }
     }
+
+
+    //
+    @RequestMapping(value = "/delete_user/{id}", method = RequestMethod.GET)
+    public String deleteUser(Model model, @PathVariable Long id) {
+        Long userId = getUserId();
+        User user = null;
+        if (userId == id) {
+            user = userService.delete(id);
+        }
+        if (user == null){
+            return "redirect:/profile/" + userId;
+        }
+
+        return "redirect:/";
+    }
+
+
 
 
     //

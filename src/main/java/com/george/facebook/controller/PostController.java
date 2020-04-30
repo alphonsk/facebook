@@ -1,17 +1,22 @@
 package com.george.facebook.controller;
 
+import com.george.facebook.model.Avatar;
 import com.george.facebook.model.Post;
+import com.george.facebook.model.Profile;
 import com.george.facebook.model.User;
+import com.george.facebook.service.AvatarService;
 import com.george.facebook.service.PostService;
+import com.george.facebook.service.ProfileService;
 import com.george.facebook.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.validation.Valid;
 import java.util.List;
@@ -21,18 +26,37 @@ public class PostController {
 
     @Autowired
     private PostService postService;
-
     @Autowired
-    UserService userService;
+    private ProfileService profileService;
+    @Autowired
+    private UserService userService;
+    @Autowired
+    private AvatarService avatarService;
 
-
-    // all post
+    // get all post
     @RequestMapping("/")
-    public String home(Model model) {
+    public String home(Model model, RedirectAttributes redirectAttributes) {
+//        // check if they have a username
+        if (isAuthenticated()) {
+          if (!hasAProfile(getUserId())) {
+              redirectAttributes.addFlashAttribute("noProfile", "no user profile");
+              return "redirect:/profile/new";
+          }
+        }
+
         List<Post> posts = postService.findAllDesc();
         int postCount = posts.size();
         model.addAttribute("posts", posts);
         model.addAttribute("postCount", postCount);
+        //
+//        Avatar avatar = avatarService.findLast(id);
+//        if (avatar.getPath() != null) {
+//            List<Avatar> avatars = avatarService.findAllByProfileId(id);
+//            model.addAttribute("avatars", avatars);
+//
+//            Avatar lastAvatar = avatarService.findLast(id);
+//            model.addAttribute("lastAvatar", lastAvatar);
+//        }
         //
         Long userId = getUserId();
         model.addAttribute("userId", userId);
@@ -59,7 +83,7 @@ public class PostController {
     }
 
 
-    // add post
+    // addpost page
     @RequestMapping("/addpost")
     public String addPost(Model model) {
         Long userId = getUserId();
@@ -69,7 +93,7 @@ public class PostController {
     }
 
 
-    // add post
+    // save
     @PostMapping("/addpost")
     // also in model & form
     public String addPost(@Valid Post post, BindingResult bindingResult, Model model){
@@ -85,7 +109,7 @@ public class PostController {
     }
 
 
-    // get post
+    // get single post
     @GetMapping("/post/{id}")
     public String getPost(Model model, @PathVariable Long id){
         Post post = postService.findById(id);
@@ -112,7 +136,6 @@ public class PostController {
     // save edit post
     @PostMapping("/editpost/{id}")
     public String editPost(@Valid Post post, BindingResult bindingResult, Model model, @PathVariable Long id){
-        Post myPost = postService.findById(id);
         String text = post.getText().trim();
 
         if (bindingResult.hasErrors()) {
@@ -123,12 +146,7 @@ public class PostController {
             return "redirect:/post/" + id;
         }
 
-        myPost.setId(id);
-        myPost.setText(post.getText());
-        myPost.setAdded(myPost.getAdded());
-        model.addAttribute("myPost", post);
-
-        Post newPost = postService.save(myPost);
+        Post newPost = postService.save(post, id);
         if (post == null){
             return "redirect:/post/" + id;
         }
@@ -156,9 +174,16 @@ public class PostController {
     }
 
 
-
+    // private methods
     //
-    public Long  getUserId(){
+    private boolean isAuthenticated(){
+        Object auth = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        if (auth == "anonymousUser" )
+            return false;
+        return true;
+    }
+
+    private Long  getUserId(){
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         String email = auth.getName();
 
@@ -168,6 +193,14 @@ public class PostController {
             return userId;
         }
         return 0l;
+    }
+
+    private boolean hasAProfile(Long id){
+        Profile profile = profileService.findById(id);
+        if (profile == null){
+            return false;
+        }
+        return true;
     }
 
 

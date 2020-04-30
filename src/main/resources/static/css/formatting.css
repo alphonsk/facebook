@@ -26,7 +26,7 @@
 }
 
 .bg-4 {
-    padding-top: 10px;
+    padding: 5px 0px;
 }
 
 .bg-3-label {
@@ -50,3 +50,80 @@
      background-color: #d9edf7;
      border-color: #bce8f1;
 }
+
+.post-avatar {
+  display: inline-block;
+  width: 45px;
+  height: 45px;
+  vertical-align: top;
+}
+
+.post-name-date {
+  display: inline-block;
+  padding: 0 10px;
+}
+
+.post-edit {
+ padding-right: 20px;
+ text-align: right;
+}
+
+.post-body {
+  padding: 10px;
+}
+
+.post-body-inner {
+    margin: 10px;
+    padding: 10px;
+  border-top: 1px solid #d9edf7;
+}
+
+.profile-avatar {
+padding: 10px;
+}
+
+
+.profile-card {
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+  max-width: 300px;
+  margin: auto;
+  text-align: center;
+  font-family: arial;
+}
+
+.profile-card-title {
+  color: grey;
+  font-size: 18px;
+}
+
+.profile-card-link-div {
+margin: 24px 0;
+}
+
+.profile-card-city {
+font-size: 16px;
+}
+
+.profile-card-button {
+  border: none;
+  outline: 0;
+  display: inline-block;
+  padding: 8px;
+  color: white;
+  background-color: #000;
+  text-align: center;
+  cursor: pointer;
+  width: 100%;
+  font-size: 18px;
+}
+
+.profile-card-link-div a {
+  text-decoration: none;
+  font-size: 22px;
+  color: black;
+}
+
+.profile-card-button:hover, a:hover {
+  opacity: 0.7;
+}
+

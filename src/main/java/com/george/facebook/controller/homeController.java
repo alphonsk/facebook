@@ -29,7 +29,6 @@ public class homeController {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         String email = auth.getName();
 
-
         User user = userService.findByEmail(email);
         if (user != null) {
             Long userId = user.getId();

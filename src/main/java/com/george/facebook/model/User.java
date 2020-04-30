@@ -41,14 +41,15 @@ public class User implements Serializable {
 
     private int enabled;
 
-    @OneToMany(mappedBy="user")
-    private Set<Post> posts;
+//    @OneToMany(mappedBy="user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+//    private Set<Post> posts;
 
 //    @OneToOne
 //    @PrimaryKeyJoinColumn
 //    private Person person;
     @OneToOne
-    @PrimaryKeyJoinColumn
+//    @PrimaryKeyJoinColumn
+    @JoinColumn(name = "profile_id", referencedColumnName = "id")
     private Profile profile;
 
 
@@ -110,6 +111,14 @@ public class User implements Serializable {
 
     public void setVerifyPassword(String verifyPassword) {
         this.verifyPassword = verifyPassword;
+    }
+
+    public Profile getProfile() {
+        return profile;
+    }
+
+    public void setProfile(Profile profile) {
+        this.profile = profile;
     }
 }
 

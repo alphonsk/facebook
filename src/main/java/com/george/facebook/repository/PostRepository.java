@@ -17,9 +17,13 @@ public interface PostRepository extends PagingAndSortingRepository<Post, Long> {
 
     Post findTopByOrderByIdDesc();
 
-    Iterable<Post> findAllByUserId(Long id);
+//    Iterable<Post> findAllByUserId(Long id);
 
-    Iterable<Post> findAllByUserIdOrderByIdDesc(Long id);
+//    Iterable<Post> findAllByUserIdOrderByIdDesc(Long id);
+
+    Iterable<Post> findAllByProfileId(Long id);
+
+    Iterable<Post> findAllByProfileIdOrderByIdDesc(Long id);
 
 
     //

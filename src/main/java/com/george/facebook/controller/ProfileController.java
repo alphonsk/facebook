@@ -1,8 +1,10 @@
 package com.george.facebook.controller;
 
+import com.george.facebook.model.Avatar;
 import com.george.facebook.model.Post;
 import com.george.facebook.model.Profile;
 import com.george.facebook.model.User;
+import com.george.facebook.service.AvatarService;
 import com.george.facebook.service.PostService;
 import com.george.facebook.service.ProfileService;
 import com.george.facebook.service.UserService;
@@ -11,13 +13,17 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.support.RequestContextUtils;
+//
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.servlet.support.RequestContextUtils;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.validation.Valid;
 import java.util.List;
 import java.util.Map;
 
@@ -25,29 +31,37 @@ import java.util.Map;
 @RequestMapping("/profile")
 public class ProfileController {
 
+    //Save the uploaded file to this folder
+    private static String UPLOADED_FOLDER = System.getProperty("java.io.tmpdir");
+
     @Autowired
     private UserService userService;
     @Autowired
     private PostService postService;
     @Autowired
     private ProfileService profileService;
+    @Autowired
+    private AvatarService avatarService;
 
-    @GetMapping("{id}")
+    // profile home page
+    @GetMapping("/{id}")
     public String getProfile(Model model, @PathVariable Long id, HttpServletRequest request){
         // loggein in user
-        Long userId = getUserId();
-        model.addAttribute("userId", userId);
+        if (isAuthenticated()) {
+            Long userId = getUserId();
+            model.addAttribute("userId", userId);
 
-        User user = userService.findById(userId);
-        model.addAttribute("user", user);
+            User user = userService.findById(userId);
+            model.addAttribute("user", user);
+            user.setPassword("");
+        }
 
         // profile visited
-        User profile = userService.findById(id);
+        Profile profile = profileService.findById(id);
         if (profile == null) {
-            id = userService.findTopByOrderByIdDesc();
-            profile = userService.findById(id);
+            id = profileService.findTopByOrderByIdDesc();
+            profile = profileService.findById(id);
         }
-        profile.setPassword("");
         model.addAttribute("profile", profile);
 
         Profile bio = profileService.findById(id);
@@ -59,6 +73,15 @@ public class ProfileController {
         model.addAttribute("posts", posts);
         model.addAttribute("postCount", postCount);
 
+        Avatar avatar = avatarService.findLast(id);
+        if (avatar.getPath() != null) {
+            List<Avatar> avatars = avatarService.findAllByProfileId(id);
+            model.addAttribute("avatars", avatars);
+
+            Avatar lastAvatar = avatarService.findLast(id);
+            model.addAttribute("lastAvatar", lastAvatar);
+        }
+
 
         // redirect an obj from another controller AuthController
         Map<String, ?> flashMap = RequestContextUtils.getInputFlashMap(request);
@@ -67,6 +90,7 @@ public class ProfileController {
             String emailInUseError = (String) flashMap.get("emailInUseError");
             String passwordError = (String) flashMap.get("passwordError");
             String passwordMarchError = (String) flashMap.get("passwordMarchError");
+            String noProfile = (String) flashMap.get("noProfile");
 //            i like the top better
 //            model.addAttribute("emailError", user.getEmail());
 //            model.addAttribute("emailInUseError", user.getEmail());
@@ -76,20 +100,17 @@ public class ProfileController {
     }
 
 
+    // get profile
     @GetMapping("/new")
-    public String newProfile(Model model){
+    public String newProfile(Model model, @Valid Profile profile, BindingResult bindingResult){
         Long usedId = getUserId();
-//        if (usedId != id)
-//            id = usedId;
-//        Profile profile = profileService.findById(id);
-//        profile.getBio();
-//        profile.getCity();
-        model.addAttribute("profile", new Profile());
+        model.addAttribute("bio", new Profile());
         return "profile/edit-profile";
     }
 
+    // edit profile
     @GetMapping("/edit/{id}")
-    public String editUser(Model model,@PathVariable Long id){
+    public String editUser(Model model,@PathVariable Long id ){
         Long usedId = getUserId();
         if (usedId != id)
             id = usedId;
@@ -108,24 +129,32 @@ public class ProfileController {
     }
 
 
+    // save profile
     @PostMapping
-    public String postProfile(Model model, Profile profile){
+    public String postProfile(Model model, Profile profile, @RequestParam("avatar") MultipartFile avatar){
+        // save profile
         Long usedId = getUserId();
-        Profile newProfile = profileService.save(profile);
+        Profile newProfile = profileService.save(profile, avatar);
+
         if (newProfile == null) {
-            return "/profile/edit/" + usedId;
+            return "redirect:/profile/" + usedId;
         }
+
         return "redirect:/profile/" + usedId;
     }
 
 
 
-
-
-
-
+    // private methods
     //
-    public Long  getUserId(){
+    private boolean isAuthenticated(){
+        Object auth = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        if (auth == "anonymousUser" )
+            return false;
+        return true;
+    }
+
+    private Long  getUserId(){
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         String email = auth.getName();
 
@@ -137,6 +166,40 @@ public class ProfileController {
         return 0l;
     }
 
-    //
+    private boolean hasAProfile(Long id){
+        Profile profile = profileService.findById(id);
+        if (profile == null){
+            return false;
+        }
+        return true;
+    }
 
+
+    //
 }
+
+
+//    // upload start
+//    @PostMapping("/upload") // //new annotation since 4.3
+//    public String singleFileUpload(@RequestParam("file") MultipartFile file, RedirectAttributes redirectAttributes) {
+//        profileService.saveFile(file);
+////        System.out.println(" ");
+////        System.out.println(" singleFileUpload " + file.getName());
+//        Long usedId = getUserId();
+//        return "/profile/edit/" + usedId;
+//    }
+
+// upload start
+
+//    // return a new page
+//    @RequestMapping(value = "/create", method = RequestMethod.POST)
+//    public String usercreate(User user, RedirectAttributes attr){
+//        attr.addFlashAttribute("users", user);
+//        return "redirect:/user/showuser";
+//    }
+//
+//    @RequestMapping(value ="/showuser")
+//    public String showUser(User user){
+//        return "user";
+//    }
+

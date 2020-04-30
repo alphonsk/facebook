@@ -2,6 +2,8 @@ package com.george.facebook.model;
 
 import javax.persistence.*;
 import java.util.Date;
+import java.util.List;
+import java.util.Set;
 
 @Entity
 public class Profile {
@@ -14,6 +16,12 @@ public class Profile {
 
     @OneToOne(cascade = CascadeType.ALL)
     private User user;
+
+    @OneToMany(mappedBy = "profile", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private List<Avatar> avatars;
+
+    @OneToMany(mappedBy="profile", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private Set<Post> posts;
 
     @Column(name = "added")
     @Temporal(TemporalType.TIMESTAMP)
@@ -68,6 +76,14 @@ public class Profile {
 
     public void setAdded(Date added) {
         this.added = added;
+    }
+
+    public List<Avatar> getAvatars() {
+        return avatars;
+    }
+
+    public void setAvatars(List<Avatar> avatars) {
+        this.avatars = avatars;
     }
 
     //

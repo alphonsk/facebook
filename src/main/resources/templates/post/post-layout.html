@@ -6,25 +6,56 @@
 
 <div th:fragment="posts" class="panel panel-info">
     <!--  -->
-    <div class="panel-heading">
-        <div class="row">
-            <div class="col-sm-4" style="">
-                <a th:href="@{|/profile/${post.user.id}|}">  <span style="color:black;font-size: 16px;weight:bold;margin:5px10px;" th:text="${post.user.email.split('@')[0]}"></span></a> date: &nbsp;<span th:text="${#dates.format(post.added, 'dd-MMM-yyyy')}"></span>
-            </div>
-            <div class="col-sm-4" style="">
+    <div class="card">
+        <!-- head -->
+        <div class="card">
+            <div class="row">
+                <div class="col-sm-4" >
+                    <div class="post-avatar">
+<!--                        <span th:unless="${post.profile.avatars}">-->
+                            <span th:if="${post.profile.avatars}">
+<!--                            <span th:if="${avatars}"  >&lt;!&ndash; alt="@{|${profile.email.split('@')[0]}|}" &ndash;&gt;-->
+                            <div th:each="ava,iterStat : ${post.profile.avatars}" >
+<!--                                <span th:text="${iterStat.index}"></span><br>-->
+<!--                                <span th:text="${iterStat.size}"></span><br>-->
+                                <span th:if="${iterStat.index == (iterStat.size)- 1}">
+                                    <img th:src="@{|/uploads/${ava.path}|}"  style="width:100%">
+                                </span>
+                            </div>
+                        </span>
 
-            </div>
-            <div class="col-sm-4" >
-                <span sec:authorize="isAuthenticated()" th:if="${post.user.id} == ${userId}" >
-                    <a th:href="@{|/editpost/${post.id}|}"> edit </a><a th:href="@{|/delete/${post.id}|}"> delete </a>
-                </span>
+<!--                        <span th:unless="${avatars}" >-->
+                        <span th:if="${post.profile.avatars.size()< 1}">
+                            <img th:src="@{/img/bird150.jpg}" class="img-circle" style="width:100%">
+                        </span>
+                    </div>
+                    <div class="post-name-date">
+                        <a th:href="@{|/profile/${post.profile.id}|}">
+                            <span style="color:black;font-size: 16px;weight:bold;margin:5px10px;" th:text="${post.profile.user.email.split('@')[0]}"></span>
+                        </a>
+                        <br>
+                        posted: &nbsp;<span th:text="${#dates.format(post.added, 'dd-MMM-yyyy')}"></span>
+                    </div>
+                </div>
+                <div class="col-sm-8">
+                    <div class="post-edit" >
+                        <span sec:authorize="isAuthenticated()" th:if="${post.profile.id} == ${userId}" >
+                            <a th:href="@{|/editpost/${post.id}|}"> edit </a><a th:href="@{|/delete/${post.id}|}"> delete </a>
+                        </span>
+                    </div>
+                </div>
             </div>
         </div>
+        <!--  body -->
+        <div class="card" >
+            <div class="post-body-inner">
+                <span th:text="${post.text}"></span>
+            </div>
+        </div>
+
+<!--       -->
     </div>
-    <!--  -->
-    <div class="panel-body">
-        <span th:text="${post.text}"></span>
-    </div>
+
 </div>
 
 

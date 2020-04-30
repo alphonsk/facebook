@@ -41,9 +41,13 @@ public class Post {
 //    private Cart cart;
 
     //...
+//    @ManyToOne
+//    @JoinColumn(name="user_id", nullable=false)
+//    private User user;
+
     @ManyToOne
-    @JoinColumn(name="user_id", nullable=false)
-    private User user;
+    @JoinColumn(name="profile_id", nullable=false)
+    private Profile profile;
 
     public Post() {
     }
@@ -81,13 +85,22 @@ public class Post {
         this.added = added;
     }
 
-    public User getUser() {
-        return user;
+//    public User getUser() {
+//        return user;
+//    }
+//
+//    public void setUser(User user) {
+//        this.user = user;
+//    }
+
+    public Profile getProfile() {
+        return profile;
     }
 
-    public void setUser(User user) {
-        this.user = user;
+    public void setProfile(Profile profile) {
+        this.profile = profile;
     }
+
 
     //
 }
