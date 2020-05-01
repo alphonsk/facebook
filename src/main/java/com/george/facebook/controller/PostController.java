@@ -1,9 +1,6 @@
 package com.george.facebook.controller;
 
-import com.george.facebook.model.Avatar;
-import com.george.facebook.model.Post;
-import com.george.facebook.model.Profile;
-import com.george.facebook.model.User;
+import com.george.facebook.model.*;
 import com.george.facebook.service.AvatarService;
 import com.george.facebook.service.PostService;
 import com.george.facebook.service.ProfileService;
@@ -59,7 +56,10 @@ public class PostController {
 //        }
         //
         Long userId = getUserId();
+        model.addAttribute("user", profileService.findById(userId));
         model.addAttribute("userId", userId);
+        // comment
+        model.addAttribute("comment", new Comment());
         return "post/all-posts";
     }
 
@@ -78,6 +78,8 @@ public class PostController {
         //
         Long userId = getUserId();
         model.addAttribute("userId", userId);
+        // comment
+        model.addAttribute("comment", new Comment());
 
         return "post/posts";
     }
@@ -117,6 +119,9 @@ public class PostController {
         //
         Long userId = getUserId();
         model.addAttribute("userId", userId);
+        // comment
+        model.addAttribute("comment", new Comment());
+
         return "post/post";
     }
 
@@ -129,6 +134,9 @@ public class PostController {
         //
         Long userId = getUserId();
         model.addAttribute("userId", userId);
+        // comment
+        model.addAttribute("comment", new Comment());
+
         return "post/editpost";
     }
 

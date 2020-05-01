@@ -3,8 +3,7 @@ package com.george.facebook.model;
 import javax.persistence.*;
 import javax.validation.constraints.*;
 import java.util.Date;
-
-
+import java.util.List;
 
 
 @Entity
@@ -35,19 +34,12 @@ public class Post {
         }
     }
 
-//    //...
-//    @ManyToOne
-//    @JoinColumn(name="cart_id", nullable=false)
-//    private Cart cart;
-
-    //...
-//    @ManyToOne
-//    @JoinColumn(name="user_id", nullable=false)
-//    private User user;
-
     @ManyToOne
     @JoinColumn(name="profile_id", nullable=false)
     private Profile profile;
+
+    @OneToMany(mappedBy="post", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<Comment> comments;
 
     public Post() {
     }

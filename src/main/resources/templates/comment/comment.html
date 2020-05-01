@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en" >
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<!---->
+    <div th:fragment="comment" class="row">
+        <div class="col-sm-4">
+        </div>
+    <!-- -->
+        <div class="col-sm-8">
+            <div class="panel-body">
+                <!--                                <div class="alert alert-danger" style="color:red; text-align:center;" th:if="${invalidUser}">-->
+                <!--                                    <p> Your email is already registered or your passwords don't march </p>-->
+                <!--                                </div>-->
+
+                <form class="form-horizontal" th:action="@{/comment/new}" th:object="${comment}"  method="POST">
+<!--                    <div class="form-group">-->
+<!--                        &lt;!&ndash;                                        <div class="alert alert-danger" style="color:red; text-align:center;" th:if="${#fields.hasErrors('*')}">&ndash;&gt;-->
+<!--                        &lt;!&ndash;                                            <p th:each="err : ${#fields.errors('*')}" th:text="${err}"></p>&ndash;&gt;-->
+<!--                        &lt;!&ndash;                                        </div>&ndash;&gt;-->
+<!--                    </div>-->
+                    <div class="form-group">
+                        <!--                                        <label class="control-label col-sm-2" >Email:</label>-->
+                        <div class="col-sm-10">
+<!--                            <textarea type="text" class="form-control"   placeholder="reply" name="comment" th:field="*{comment}"> </textarea>-->
+                            <input type="text" class="form-control" id="text" placeholder="Enter a post" th:field="${comment.comment}">
+                        </div>
+
+<!--                        <div class="col-sm-10">-->
+<!--                            &lt;!&ndash;                                            <input type="hidden" name="authority" th:value="${'ROLE_USER'}"/>&ndash;&gt;-->
+<!--                            &lt;!&ndash;                                            <input type="hidden" name="enabled" th:value="${1}"/>&ndash;&gt;-->
+<!--                            <input type="hidden" name="post" th:value="${post}"/>-->
+<!--                            <input type="hidden" name="profile" th:value="${user}"/>-->
+<!--                        </div>-->
+                    </div>
+                    <div class="form-group">
+                        <div class="pull-right">
+                            <button type="submit" class="btn btn-primary">reply</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+    </div>
+<!---->
+</body>
+</html>

@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html  lang="en"
-        xmlns:th="http://www.thymeleaf.org"
-        xmlns:sec="http://www.thymeleaf.org/extras/spring-security" >
+       xmlns:th="http://www.thymeleaf.org"
+       xmlns:sec="http://www.thymeleaf.org/extras/spring-security" >
 
 <head th:replace="main/layout :: header"></head>
 <body>
@@ -14,25 +14,30 @@
         <div class="panel-heading">new post</div>
         <!--        -->
         <div class="panel-body">
+            <div th:if="${message}">
+                your message: <span th:text="${message}"></span>
+            </div>
             <div >
-                <form class="form-horizontal" th:action="@{/addpost}" th:object="${post}" method="POST">
+                <form class="form-horizontal" th:action="@{/comment/new}" th:object="${comment}" method="POST">
                     <div class="form-group">
-                        <label class="control-label col-sm-2" for="text">add a post:</label>
+                        <label class="control-label col-sm-2" for="text">add a comment:</label>
                         <div class="col-sm-10" >
-                            <input type="text" class="form-control" id="text" placeholder="Enter a post" th:field="*{text}">
-                            <span th:if="${#fields.hasErrors('text')}" th:errors="*{text}" class="error">Name Error</span>
+                            <input type="text" class="form-control" id="text" placeholder="Enter a comment" th:field="*{text}">
+<!--                            <span th:if="${#fields.hasErrors('text')}" th:errors="*{text}" class="error">Name Error</span>-->
                         </div>
                     </div>
                     <div class="form-group">
                         <label class="control-label col-sm-2" for="user"> </label>
                         <div class="col-sm-10" sec:authorize="isAuthenticated()">
                             <input type="hidden" name="user" id="user" th:value="${userId}"/>
+                            <input type="hidden" name="post" id="post" th:value="${postId}"/>
+                            <input type="hidden" name="_csrf" id="_csrf" th:value="${_csrf.token}"/>
                         </div>
                     </div>
 
                     <div class="form-group">
                         <div class="col-sm-offset-2 col-sm-10">
-                            <button type="submit" class="btn btn-default">Post</button>
+                            <button type="submit" class="btn btn-default">reply</button>
                         </div>
                     </div>
                 </form>

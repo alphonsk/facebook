@@ -1,9 +1,6 @@
 package com.george.facebook.controller;
 
-import com.george.facebook.model.Avatar;
-import com.george.facebook.model.Post;
-import com.george.facebook.model.Profile;
-import com.george.facebook.model.User;
+import com.george.facebook.model.*;
 import com.george.facebook.service.AvatarService;
 import com.george.facebook.service.PostService;
 import com.george.facebook.service.ProfileService;
@@ -82,6 +79,9 @@ public class ProfileController {
             model.addAttribute("lastAvatar", lastAvatar);
         }
 
+        // comment
+        model.addAttribute("comment", new Comment());
+
 
         // redirect an obj from another controller AuthController
         Map<String, ?> flashMap = RequestContextUtils.getInputFlashMap(request);
@@ -102,9 +102,15 @@ public class ProfileController {
 
     // get profile
     @GetMapping("/new")
-    public String newProfile(Model model, @Valid Profile profile, BindingResult bindingResult){
+    public String newProfile(Model model, @Valid Profile profile, BindingResult bindingResult, HttpServletRequest request){
         Long usedId = getUserId();
         model.addAttribute("bio", new Profile());
+        //
+        // redirect an obj from another controller AuthController
+        Map<String, ?> flashMap = RequestContextUtils.getInputFlashMap(request);
+        if(flashMap != null) {
+            String noProfile = (String) flashMap.get("noProfile");
+        }
         return "profile/edit-profile";
     }
 
@@ -124,6 +130,8 @@ public class ProfileController {
 
         Profile profile = profileService.findById(id);
         model.addAttribute("profile", profile);
+        // comment
+        model.addAttribute("comment", new Comment());
 
         return "profile/edit-profile";
     }

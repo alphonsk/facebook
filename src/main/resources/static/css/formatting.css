@@ -55,6 +55,15 @@
   display: inline-block;
   width: 45px;
   height: 45px;
+  padding: 5px;
+  vertical-align: top;
+}
+
+.post-avatar {
+  display: inline-block;
+  width: 45px;
+  height: 45px;
+  padding: 5px;
   vertical-align: top;
 }
 
@@ -73,12 +82,14 @@
 }
 
 .post-body-inner {
-    margin: 10px;
+    margin: 0 20px;
     padding: 10px;
   border-top: 1px solid #d9edf7;
 }
 
 .profile-avatar {
+width: 250px;
+height: 250px;
 padding: 10px;
 }
 

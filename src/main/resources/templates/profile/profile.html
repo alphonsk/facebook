@@ -12,10 +12,10 @@
             <div class="profile-card">
                 <div class="profile-avatar">
                         <span th:if="${avatars}" >
-                            <img th:src="@{|/uploads/${lastAvatar.path}|}" alt="@{|${profile.email.split('@')[0]}|}" class="img-circle" style="width:100%">
+                            <img th:src="@{|/uploads/${lastAvatar.path}|}" alt="@{|${profile.email.split('@')[0]}|}" class="img-circle" style="width:100%;height:100%">
                         </span>
                     <span th:unless="${avatars}" >
-                            <img th:src="@{/img/bird150.jpg}" class="img-circle" alt="@{|${profile.email.split('@')[0]}|}" style="width:100%">
+                            <img th:src="@{/img/bird150.jpg}" class="img-circle" alt="@{|${profile.email.split('@')[0]}|}" style="width:100%;height:100%">
                         </span>
                 </div>
                 <!-- -->
@@ -86,11 +86,6 @@
         </div>
         <div class="col-sm-8">
         <!--  -->
-            <span th:if="${noProfile}">
-                <div class="alert alert-danger" style="color:red; text-align:center;" >
-                    <p> Create a profile to begin </p>
-                </div>
-            </span>
             <div class="panel panel-info">
                 <div class="panel-heading" th:if="${ postCount > 0 }" style="text-align:center;">
                     <span th:text="${postCount}"> </span><span> posts </span>
@@ -121,13 +116,41 @@
     <div th:replace="profile/email-bio-layout :: bio"></div>
 
 
+    <ul id="rooms">
+        <li><a data-toggle="modal" data-target="#myModal" dataid="10">Room 10</a>
+        </li>
+        <li><a data-toggle="modal" data-target="#myModal" dataid="20">Room 20</a>
+        </li>
+        <li><a data-toggle="modal" data-target="#myModal" dataid="30">Room 30</a>
+        </li>
+        <li><a data-toggle="modal" data-target="#myModal" dataid="40">Room 40</a>
+        </li>
+    </ul>
 
+    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title" id="myModalLabel">Modal title</h4>
+
+                </div>
+                <div class="modal-body">
+                    <p>Your room number is: <span class="roomNumber"></span>.</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary">Save changes</button>
+                </div>
+            </div>
+        </div>
+    </div>
 
 <!-- container -->
 </div>
 
 
-
+<script type="text/javascript" th:src="@{js/postnum.js}"></script>
 </body>
 </html>
 

@@ -23,6 +23,9 @@ public class Profile {
     @OneToMany(mappedBy="profile", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Set<Post> posts;
 
+    @OneToMany(mappedBy="profile", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<Comment> comments;
+
     @Column(name = "added")
     @Temporal(TemporalType.TIMESTAMP)
     private Date added;
