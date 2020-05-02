@@ -1,29 +1,25 @@
-//$(document).ready( function () {
-$(document).load(function () {
+$(document).ready(function() {
 
-var myRoomNumber;
-
-$('#rooms li a').click(function() {
-   myRoomNumber = $(this).attr('dataid');
-   console.log(myRoomNumber);
-});
-
-$('#myModal').on('show.bs.modal', function (e) {
-    $(this).find('.roomNumber').text(myRoomNumber);
-});
-
-    var postnum;
-    $('#reply-modal div button').click(function() {
-        postnum = $(this).attr('id');
-        console.log('CLICKED');
+    $('#add-comment').on('show.bs.modal', function(e) {
+        var postid = $(e.relatedTarget).data('id');
+        $(this).find('#post').val(postid);
     });
 
-//    $('#add-comment').click(function() {
-//       post-id = $(this).attr('post-id');
-//    });
-//
-//    $('#add-comment').on('show.bs.modal', function (e) {
-//        $(this).find('.roomNumber').text(post-id);
-//    });
+
 
 });
+
+//    alert("I'm active");
+//     $("selector").on("event", "delegateselector", function(){
+//        // some code...
+//      });
+
+//    $('div.roomdiv').on('show.bs.modal','#myModal', function (e) {
+//        var getIdFromRow = $(e.relatedTarget).data('id');
+//        $("#buyghc").val(getIdFromRow);
+//    });
+
+//    $('#add-comment').on('show.bs.modal', function(e) {
+//        var x = $(e.relatedTarget).data('id');
+//        $(this).find('.roomNumber').text(x);
+//    });

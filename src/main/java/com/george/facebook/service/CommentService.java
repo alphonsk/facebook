@@ -92,6 +92,15 @@ public class CommentService {
         return 0l;
     }
 
+    public Comment findById(Long id) {
+        Comment comment = commentRepository.findById(id).get();
+        return comment;
+    }
+
+    public void deleteById(Long id) {
+        commentRepository.deleteById(id);
+    }
+
 
 //
 }

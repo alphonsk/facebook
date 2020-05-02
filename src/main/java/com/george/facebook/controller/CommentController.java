@@ -9,17 +9,16 @@ import com.george.facebook.service.PostService;
 import com.george.facebook.service.ProfileService;
 import com.george.facebook.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.List;
 
 @Controller
 @RequestMapping("/comment")
@@ -65,15 +64,44 @@ public class CommentController {
     @PostMapping("/new")
     public String saveComment(@Valid Comment comment, BindingResult bindingResult, Model model) {
 
-
-//        return null;
         model.addAttribute("comment", new Comment());
         model.addAttribute("message", comment.getText());
+
+        if (comment.getText().toString().length() < 1){
+            return "comment/new-comment";
+        }
+        System.out.println(" ");
+        System.out.println(" comment save controller ");
+
+//        return null;
+
         Comment newComment = commentService.save(comment);
         if (comment == null){
             return "comment/new-comment";
         }
-        return "redirect:/comment";
+//        return "redirect:/comment";
+        return "redirect:/";
+    }
+
+
+    // delete post
+    @GetMapping("/delete/{id}")
+    public String delete(@PathVariable Long id, Model model, @RequestParam(name="p", defaultValue="1") int pageNumber){
+
+        Comment comment = commentService.findById(id);
+        commentService.deleteById(id);
+
+        //
+        List<Post> posts = postService.findAllDesc();
+        int postCount = posts.size();
+        model.addAttribute("postCount", postCount);
+        //
+        Page<Post> page = postService.getPage(pageNumber);
+        model.addAttribute("page", page );
+        model.addAttribute("pageNumber", pageNumber );
+
+        //
+        return "redirect:/posts";
     }
 
 

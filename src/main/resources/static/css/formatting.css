@@ -84,6 +84,7 @@
 .post-body-inner {
     margin: 0 20px;
     padding: 10px;
+    padding-bottom:0;
   border-top: 1px solid #d9edf7;
 }
 
@@ -136,5 +137,17 @@ font-size: 16px;
 
 .profile-card-button:hover, a:hover {
   opacity: 0.7;
+}
+
+#comment-top {
+  border-top: 1px solid #d9edf7;
+}
+
+#comment-body-inner {
+    padding: 0 0 5px 50px;
+    background-color: #fafafa;
+    background-color: #f0f0f0;
+    margin-bottom:3px;
+
 }
 
