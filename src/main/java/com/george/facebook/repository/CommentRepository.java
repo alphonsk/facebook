@@ -16,9 +16,15 @@ public interface CommentRepository extends PagingAndSortingRepository<Comment, L
 
     Comment findTopByOrderByIdDesc();
 
-    Iterable<Comment> findAllByProfileId(Long id);
+    Comment findTopByProfileIdOrderByIdDesc(Long id);
+
+//    Iterable<Comment> findAllByProfileId(Long id);
 
     Iterable<Comment> findAllByProfileIdOrderByIdDesc(Long id);
+
+    List<Comment> findAllByProfileId(Long id);
+
+
 
 
     //

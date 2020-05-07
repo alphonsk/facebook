@@ -45,39 +45,21 @@ public class CommentController {
         return "comment/new-comment";
     }
 
-    // save
-//    @PostMapping("/addpost")
-//    // also in model & form
-//    public String addPost(@Valid Post post, BindingResult bindingResult, Model model){
-//        if (bindingResult.hasErrors()) {
-//            return "post/addpost";
-//        }
-//
-//        Post newPost = postService.save(post);
-//        if (post == null){
-//            return "post/addpost";
-//        }
-//        return ("redirect:/posts");
-//    }
 
     // save new comment
-    @PostMapping("/new")
+    @PostMapping("/save")
     public String saveComment(@Valid Comment comment, BindingResult bindingResult, Model model) {
 
         model.addAttribute("comment", new Comment());
         model.addAttribute("message", comment.getText());
 
         if (comment.getText().toString().length() < 1){
-            return "comment/new-comment";
+            return "redirect:/";
         }
-        System.out.println(" ");
-        System.out.println(" comment save controller ");
-
-//        return null;
 
         Comment newComment = commentService.save(comment);
         if (comment == null){
-            return "comment/new-comment";
+            return "redirect:/";
         }
 //        return "redirect:/comment";
         return "redirect:/";

@@ -15,7 +15,7 @@
                     <div class="modal-content">
                         <div class="modal-header .bg-info">
                             <button type="button" class="close" data-dismiss="modal">&times;</button>
-                            <h4 class="modal-title">Change your email or password</h4>
+                            <h4 class="modal-title">Change your bio</h4>
                         </div>
                         <div class="modal-body">
                             <!-- Modal body-->
@@ -82,7 +82,7 @@
                     <div class="modal-content">
                         <div class="modal-header">
                             <button type="button" class="close" data-dismiss="modal">&times;</button>
-                            <h4 class="modal-title">Change your Bio</h4>
+                            <h4 class="modal-title">Change your email or password</h4>
                         </div>
                         <div class="modal-body">
                             <!-- Modal body-->
@@ -113,13 +113,13 @@
                                         <div class="form-group">
                                             <label class="control-label col-sm-2" >New Password:</label>
                                             <div class="col-sm-10">
-                                                <input type="text" class="form-control"  placeholder="Enter a password" name="password" th:field="*{password}">
+                                                <input type="password" class="form-control"  placeholder="Enter a password" name="password" th:field="*{password}">
                                             </div>
                                         </div>
                                         <div class="form-group">
                                             <label class="control-label col-sm-2"  >Confirm Password:</label>
                                             <div class="col-sm-10">
-                                                <input type="text" class="form-control" id="confirmPassword" placeholder="Confirm password" name="confirmPassword"  th:field="*{confirmPassword}">
+                                                <input type="password" class="form-control" id="confirmPassword" placeholder="Confirm password" name="confirmPassword"  th:field="*{confirmPassword}">
                                             </div>
                                         </div>
                                     </div>
@@ -129,7 +129,7 @@
                                         <label class="control-label col-sm-2" >Password:</label>
                                         <div class="col-sm-10">
                                             <span class="text-danger" style="padding:5px;">Enter your password to confirm changes</span>
-                                            <input type="text" class="form-control"  placeholder="Enter a password" name="verifyPassword" th:field="*{verifyPassword}">
+                                            <input type="password" class="form-control"  placeholder="Enter a password" name="verifyPassword" th:field="*{verifyPassword}">
                                         </div>
                                     </div>
 

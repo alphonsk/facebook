@@ -12,8 +12,19 @@ public class Comment {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
     private String text;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name="post_id", nullable=false)
+    private Post post;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name="profile_id", nullable=false)
+    private Profile profile;
+
+    @Transient
+    private Long userId;
+    @Transient
+    private  Long postId;
 
     @Column(name = "added")
     @Temporal(TemporalType.TIMESTAMP)
@@ -26,19 +37,28 @@ public class Comment {
         }
     }
 
-    @ManyToOne
-    @JoinColumn(name="post_id", nullable=false)
-    private Post post;
-
-    @ManyToOne
-    @JoinColumn(name="profile_id", nullable=false)
-    private Profile profile;
 
     public Comment() {
     }
 
     public Long getId() {
         return id;
+    }
+
+    public Long getUserId() {
+        return userId;
+    }
+
+    public Long getPostId() {
+        return postId;
+    }
+
+    public void setUserId(Long userId) {
+        this.userId = userId;
+    }
+
+    public void setPostId(Long postId) {
+        this.postId = postId;
     }
 
     public void setId(Long id) {
@@ -51,14 +71,6 @@ public class Comment {
 
     public void setText(String text) {
         this.text = text;
-    }
-
-    public Date getAdded() {
-        return added;
-    }
-
-    public void setAdded(Date added) {
-        this.added = added;
     }
 
     public Post getPost() {
@@ -77,7 +89,13 @@ public class Comment {
         this.profile = profile;
     }
 
+    public Date getAdded() {
+        return added;
+    }
 
+    public void setAdded(Date added) {
+        this.added = added;
+    }
 
     //    @Id
 //    @GeneratedValue(strategy = GenerationType.IDENTITY)

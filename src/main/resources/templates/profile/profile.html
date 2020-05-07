@@ -4,7 +4,7 @@
        xmlns:sec="http://www.thymeleaf.org/extras/spring-security" >
 
 <head th:replace="main/layout :: header"></head>
-    <body>
+    <div>
 
         <nav th:replace="main/layout :: navbar"></nav>
         <div class="container">
@@ -101,6 +101,8 @@
                 </div>
 
             </div>
+        </div>
+    </div>
 
             <!-- email -modal -->
             <div th:replace="profile/email-bio-layout :: email"></div>
@@ -108,6 +110,8 @@
             <!-- bio modal -->
             <div th:replace="profile/email-bio-layout :: bio"></div>
         </div>
+
+
         <!-- end of container  -->
 
         <div th:replace="main/layout :: footer"></div>

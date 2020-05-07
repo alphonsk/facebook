@@ -7,6 +7,7 @@
         <title>Home</title>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
+<!--        <meta th:name="${_csrf.parameterName}" th:content="${_csrf.token}"/>-->
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
         <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.css" rel="stylesheet" type="text/css" />
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
@@ -14,6 +15,8 @@
 <!--        <script src="http://code.jquery.com/jquery-1.10.2.js"></script>-->
         <link rel="stylesheet" th:href="@{/css/formatting.css}">
         <link rel="stylesheet" type="text/css" th:href="@{/css/style.css}"/>
+<!--        <script src="webjars/bootstrap/4.0.0/js/bootstrap.min.js"></script>-->
+<!--        <script src="webjars/jquery/3.0.0/jquery.min.js"></script>-->
     </head>
 
 
@@ -62,9 +65,10 @@
 </nav>
 
 <div th:fragment ="footer">
+    <br><br><br>
     <div class="panel-footer" style="color:red;text-align:center;">
         footer
-        <script type="application/javascript" th:src="@{/js/postnum.js}"></script>
+        <script type="application/javascript" th:src="@{/js/new-comment.js}"></script>
     </div>
 </div>
 

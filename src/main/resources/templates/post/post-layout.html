@@ -65,16 +65,17 @@
                 </div>
 <!--                <div class="row" id="reply-btn-div">-->
 <!--                    <div class="pull-right" id="reply-modal" style="padding: 0px 30px 10px 0;" th:with="post-id=${post.id}">-->
-<!--    &lt;!&ndash;                    <div th:with="name=${user.name},country=${user.country}">&ndash;&gt;-->
-<!--    &lt;!&ndash;                    <span th:text="${post}"></span>&ndash;&gt;-->
-<!--    &lt;!&ndash;                    <span th:id="${__${post.id}__}"></span>&ndash;&gt;-->
-<!--    &lt;!&ndash;                    <span th:value="${__${post.id}__}"></span>&ndash;&gt;-->
+    <!--                    <div th:with="name=${user.name},country=${user.country}">-->
+    <!--                    <span th:text="${post}"></span>-->
+    <!--                    <span th:id="${__${post.id}__}"></span>-->
+    <!--                    <span th:value="${__${post.id}__}"></span>-->
 <!--                        <button type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#add-comment" th:data-id="${__${post.id}__}">reply</button>-->
 <!--                    </div>-->
 <!--                </div>-->
                 <div class="row">
                     <div class="main-comments-div">
                         <div th:replace="comment/comments :: comments"></div>
+                        <div id="newComment"></div>
                     </div>
                 </div>
 
@@ -91,7 +92,7 @@
 
 
 
-
+</div>
 
     </body>
 </html>
